@@ -1,5 +1,16 @@
 "use server";
 
-const login = (values: any) => {
-  console.info(values);
+import * as z from "zod";
+import {LoginSchema} from "@/schemas";
+
+export const login = async (values: z.infer<typeof LoginSchema>) => {
+  const validatedFields = LoginSchema.safeParse(values);
+
+  if(!validatedFields) {
+    return {error: "invalid fields"};
+  }
+
+  return {success: "Login successfully"};
+
 };
+
