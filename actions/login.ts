@@ -8,6 +8,8 @@ import {LoginSchema} from "@/schemas";
 import {db} from "@/lib/db";
 import {signIn} from "@/auth"
 import {DEFAULT_LOGIN_REDIRECT} from "@/routes";
+import {generateVerificationToken} from "@/lib/token";
+import {sendVerificationEmail} from "@/lib/mail";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -29,6 +31,14 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const passwordMatch = await bcrypt.compare(password, user.password);
 
   if(!passwordMatch) return {error: "invalid credential"};
+
+  if(!user || !user.email || !user.password) return {error: "Email doesn't exist!"};
+
+  if(!user.emailVerified){
+    const verificationToken = await generateVerificationToken(user.email);
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    return {success: "Confirmation email sent!"}
+  }
 
    try {
      await signIn("credentials", {

@@ -5,17 +5,17 @@ export const publicRoutes = [
 
 /**
  * An array of routes tha are used for authentication
- * These routes will redirect logged in users to /settings
+ * These routes will redirect logged-in users to /settings
  * @type {string[]}
  * */
 export const authRoutes = [
-  "/auth/login",
-  "/auth/register",
+    "/auth/login",
+    "/auth/register",
+    "/auth/new-verification",
 ];
 
 /**
- * The prefix for API authentication routes
- * Routes that start with this prefix are used for api
+ * The prefix for API authentication  routes *  that start with this prefix are used for api
  * @type {string}
  * */
 export const apiAuthPrefix = "/api/auth";
