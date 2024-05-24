@@ -1,0 +1,9 @@
+@startuml
+
+entity Users{
+    * id VARCHAR(255)
+    --
+    * name VARCHAR(255)
+}
+
+@enduml
