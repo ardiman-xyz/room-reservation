@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -20,7 +22,7 @@ import {Notification} from "@/app/(admin)/_components/notification";
 import {BottomSidebar} from "@/app/(admin)/_components/bottom-sidebar";
 import {SidebarItem} from "@/app/(admin)/_components/sidebar-item";
 
-const routes = [
+export const routes = [
     {
         title: "Dashboard",
         route: "/dashboard",
@@ -70,7 +72,6 @@ export const DesktopSidebar = () => {
                                 />
                             ))
                         }
-
                     </nav>
                 </div>
                 <div className="mt-auto p-4">
