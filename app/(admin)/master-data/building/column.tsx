@@ -10,10 +10,10 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link";
+import {DeleteAction} from "@/app/(admin)/master-data/building/_components/DeleteAction";
 
 export const columns: ColumnDef<Building>[] = [
     {
@@ -40,7 +40,9 @@ export const columns: ColumnDef<Building>[] = [
         id: "Aksi",
         header: "Aksi",
         cell: ({ row }) => {
-            const payment = row.original
+            const handleDelete = () => {
+                console.info(row.original.id)
+            }
 
             return (
                 <DropdownMenu>
@@ -57,7 +59,9 @@ export const columns: ColumnDef<Building>[] = [
                                 Ubah
                             </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Hapus</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            <DeleteAction id={row.original.id} />
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

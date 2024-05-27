@@ -47,3 +47,15 @@ export const update = async (values: z.infer<typeof formCreate>, id: string) => 
 
     return {success: "Gedung berhasil diupdate"};
 }
+
+export const deleteBuilding = async (id: string) => {
+
+    const existingBuilding = await getBuildingById(id);
+    if(!existingBuilding) return {error: "Gedung tidak ditemukan!"};
+
+    await db.building.delete({
+        where: {id: existingBuilding.id},
+
+    })
+    return {success: "Gedung berhasil dihapus"};
+}
