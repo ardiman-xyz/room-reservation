@@ -1,11 +1,13 @@
 "use client";
 
 import React, {useState, useTransition} from "react";
+
 import { z } from "zod"
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod"
-
 import { useForm } from "react-hook-form"
+import { useRouter } from 'next/navigation'
+
 import {
     Form,
     FormControl,
@@ -16,15 +18,18 @@ import {
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
 import {Input} from "@/components/ui/input";
-import {create} from "@/actions/building";
+import {update} from "@/actions/building";
 import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
 import {formCreate} from "@/schemas/building";
-import {useRouter} from "next/navigation";
+import {Building} from "@prisma/client";
 
+interface IProps {
+    defaultData: Building
+}
 
-export const BuildingForm = () => {
+export const EditBuildingForm = ({ defaultData }: IProps) => {
 
     const router = useRouter()
 
@@ -35,7 +40,7 @@ export const BuildingForm = () => {
     const form = useForm<z.infer<typeof formCreate>>({
         resolver: zodResolver(formCreate),
         defaultValues: {
-            name: "",
+            name: defaultData.name,
         },
     })
 
@@ -44,10 +49,9 @@ export const BuildingForm = () => {
         setSuccess("")
 
         startTransition(() => {
-            create(values).then((data) => {
+            update(values, defaultData.id).then((data) => {
                 setError(data?.error);
                 if(data?.success) {
-                    form.reset();
                     setSuccess(data?.success);
                     router.refresh()
                 }
@@ -58,7 +62,7 @@ export const BuildingForm = () => {
     return (
         <div>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[500px]">
                     <FormField
                         control={form.control}
                         name="name"
