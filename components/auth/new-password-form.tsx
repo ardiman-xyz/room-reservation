@@ -65,7 +65,7 @@ export const NewPasswordForm = () => {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Email</FormLabel>
+                                <FormLabel>New Password</FormLabel>
                                 <FormControl>
                                     <Input placeholder="******" {...field} autoFocus={true} disabled={isPending} type="password"  />
                                 </FormControl>

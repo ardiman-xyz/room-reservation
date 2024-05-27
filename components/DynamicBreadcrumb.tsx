@@ -35,16 +35,15 @@ const DynamicBreadcrumb = () => {
                     if (path === "dashboard" && index === 0) {
                         return null;
                     }
-
                     return (
                         <Fragment key={path}>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 {index === paths.length - 1 ? (
-                                    <BreadcrumbPage>{path}</BreadcrumbPage>
+                                    <BreadcrumbPage className="capitalize">{path}</BreadcrumbPage>
                                 ) : (
                                     <BreadcrumbLink asChild>
-                                        <Link href={`/${paths.slice(0, index + 1).join("/")}`}>{path}</Link>
+                                        <Link href={`/${paths.slice(0, index + 1).join("/")}`} className="capitalize">{path}</Link>
                                     </BreadcrumbLink>
                                 )}
                             </BreadcrumbItem>

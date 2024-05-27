@@ -3,20 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import {
-    Bell,
-    Book,
     Home,
     Laptop,
-    LineChart,
     Package,
-    Package2,
-    ShoppingCart,
-    Users,
     Calendar,
     Settings
 } from "lucide-react";
 
-import {Badge} from "@/components/ui/badge";
 import {Logo} from "@/components/logo";
 import {Notification} from "@/app/(admin)/_components/notification";
 import {BottomSidebar} from "@/app/(admin)/_components/bottom-sidebar";
@@ -26,27 +19,34 @@ export const routes = [
     {
         title: "Dashboard",
         route: "/dashboard",
-        icon: Home
+        icon: Home,
+
     },
     {
         title: "Master data",
-        route: "/master",
-        icon: Laptop
+        route: "/master-data",
+        icon: Laptop,
+        items: [
+            {
+                title: "Building",
+                route: "/master-data/building",
+            }
+        ]
     },
     {
         title: "Booking",
         route: "/booking",
-        icon: Package
+        icon: Package,
     },
     {
         title: "Calendar",
         route: "/calendar",
-        icon: Calendar
+        icon: Calendar,
     },
     {
         title: "Setting",
-        route: "/setting",
-        icon: Settings
+        route: "/settings",
+        icon: Settings,
     }
 ]
 
@@ -68,6 +68,7 @@ export const DesktopSidebar = () => {
                                     title={route.title}
                                     route={route.route}
                                     icon={route.icon}
+                                    child={route.items}
                                     key={index}
                                 />
                             ))
