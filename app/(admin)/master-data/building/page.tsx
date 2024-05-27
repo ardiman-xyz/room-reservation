@@ -20,16 +20,16 @@ const BuildingPage = () => {
                    <Button size="sm" className="h-8 gap-1">
                        <PlusCircle className="h-3.5 w-3.5"/>
                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Product
+                   Tambah Gedung
                   </span>
                    </Button>
                </Link>
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Products</CardTitle>
+                    <CardTitle>Gedung</CardTitle>
                     <CardDescription>
-                        Manage your products and view their sales performance.
+                        Atur data gedung anda
                     </CardDescription>
                 </CardHeader>
                 <CardContent>

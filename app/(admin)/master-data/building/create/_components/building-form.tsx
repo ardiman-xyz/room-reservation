@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -17,24 +16,39 @@ import {
 
 import {Input} from "@/components/ui/input";
 import Link from "next/link";
+import {formCreate} from "@/schemas/building";
+import React, {useState, useTransition} from "react";
+import {create} from "@/actions/building";
+import FormError from "@/components/form-error";
+import FormSuccess from "@/components/form-success";
 
-const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "Input harus di isi"
-    }).max(50),
-})
 
 export const BuildingForm = () => {
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const [isPending, startTransition] = useTransition();
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
+
+    const form = useForm<z.infer<typeof formCreate>>({
+        resolver: zodResolver(formCreate),
         defaultValues: {
             name: "",
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    function onSubmit(values: z.infer<typeof formCreate>) {
+        setError("");
+        setSuccess("")
+
+        startTransition(() => {
+            create(values).then((data) => {
+                setError(data?.error);
+                if(data?.success) {
+                    form.reset();
+                    setSuccess(data?.success);
+                }
+            })
+        })
     }
 
     return (
@@ -48,19 +62,23 @@ export const BuildingForm = () => {
                             <FormItem>
                                 <FormLabel>Nama</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Gedung A..." {...field} />
+                                    <Input placeholder="Gedung A..." {...field} disabled={isPending} />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )}
                     />
+
+                    <FormError message={error} />
+                    <FormSuccess message={success} />
+
                     <div className={"flex gap-2"}>
                         <Button asChild variant="outline" size="sm" className="h-8">
                             <Link href={"/master-data/building"}>
                                 Batal
                             </Link>
                         </Button>
-                        <Button size={"sm"} className="h-8">Save</Button>
+                        <Button disabled={isPending} size={"sm"} className="h-8">Save</Button>
                     </div>
                 </form>
             </Form>
