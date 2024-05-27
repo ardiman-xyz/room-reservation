@@ -2,6 +2,7 @@ import React from "react";
 
 import {DesktopSidebar} from "./_components/desktop-sidebar";
 import {TopBar} from "./_components/top-bar";
+import DynamicBreadcrumb from "@/components/DynamicBreadcrumb";
 
 const AdminLayout = ({children}: {children: React.ReactNode}) => {
     return (
@@ -11,6 +12,7 @@ const AdminLayout = ({children}: {children: React.ReactNode}) => {
                 <TopBar />
 
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                    <DynamicBreadcrumb />
                     {children}
                 </main>
 
