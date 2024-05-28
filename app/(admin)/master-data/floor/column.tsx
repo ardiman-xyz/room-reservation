@@ -1,9 +1,11 @@
 "use client"
 
 import { MoreHorizontal } from "lucide-react"
-import { ColumnDef } from "@tanstack/react-table"
+import Link from "next/link";
 
-import {Floor} from "@prisma/client";
+import { ColumnDef } from "@tanstack/react-table"
+import {FloorWithBuilding} from "@/types/app";
+
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -12,9 +14,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from "next/link";
-import {DeleteAction} from "@/app/(admin)/master-data/building/_components/DeleteAction";
-import {FloorWithBuilding} from "@/types/app";
+import {DeleteAction} from "@/app/(admin)/master-data/floor/_components/DeleteAction";
 
 export const columns: ColumnDef<FloorWithBuilding>[] = [
     {

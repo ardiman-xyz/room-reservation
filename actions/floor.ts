@@ -6,6 +6,7 @@ import {FloorSchema} from "@/schemas";
 import {db} from "@/lib/db";
 
 import {getBuildingById} from "@/data/building";
+import {getFloorById} from "@/data/floor";
 
 export const create = async (values: z.infer<typeof FloorSchema>) => {
     const validatedFields = FloorSchema.safeParse(values);
@@ -54,9 +55,7 @@ export const updateFloor = async (values: z.infer<typeof FloorSchema>, id: strin
 
     if (existingFloorBuilding) return { error: `Lantai dengan ${name} yang sama sudah ada di gedung ${isBuildingExist.name}!` };
 
-    const existingFloor = await db.floor.findFirst({
-        where: {id}
-    });
+    const existingFloor = await getFloorById(id)
 
     if(!existingFloor) return {error: "Data lantai tidak ada!"};
 
@@ -69,5 +68,21 @@ export const updateFloor = async (values: z.infer<typeof FloorSchema>, id: strin
     });
 
     return {success: "Data lantai berhasil di update"};
+
+}
+
+export const deleteFloor = async (id: string) => {
+
+    const isFloorExisting = await getFloorById(id);
+    if(!isFloorExisting) return {error: "Data lantai tidak ada!"};
+
+    await db.floor.delete({
+        where: {id},
+        include: {
+            room: true
+        }
+    });
+
+    return {success: "Data lantai berhasil di hapus"};
 
 }
