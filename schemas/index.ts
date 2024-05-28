@@ -33,3 +33,11 @@ export const RegisterSchema = z.object({
   }),
 });
 
+export const FloorSchema = z.object({
+  building: z.string().min(1,{
+    message: "Gedung harus di isi",
+  }),
+  name: z.string().min(2, {
+    message: "Name is required",
+  })
+})

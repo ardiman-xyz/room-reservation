@@ -73,4 +73,27 @@ model Building {
   name    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  floors   Floor[]
 }
+
+model Floor  {
+  id          String  @id @default(cuid())
+  name        String
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id])
+  room        Room[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+}
+
+model Room {
+  id          String  @id @default(cuid())
+  name        String
+  floorId     String
+  Floor       Floor @relation(fields: [floorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+
