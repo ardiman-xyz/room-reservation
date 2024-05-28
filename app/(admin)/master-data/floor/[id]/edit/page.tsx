@@ -1,4 +1,3 @@
-
 import {
     Card,
     CardContent,
@@ -6,12 +5,16 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import {FloorForm} from "./_components/floor-form";
+import {getFloorById} from "@/data/floor";
+import {FloorEditForm} from "@/app/(admin)/master-data/floor/[id]/edit/_components/floor-edit-form";
 import {getAllData} from "@/data/building";
 
-const CreateFloorPage = async () => {
+const FloorEditPage = async ({params}: {params: {id: string}}) => {
 
-    const data = await getAllData();
+    const floor = await getFloorById(params.id);
+    const buildings = await getAllData();
+
+    if(!floor) return null;
 
     return (
         <div>
@@ -23,11 +26,14 @@ const CreateFloorPage = async () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <FloorForm buildings={data} />
+                    <FloorEditForm
+                        buildings={buildings}
+                        defaultData={floor}
+                    />
                 </CardContent>
             </Card>
         </div>
     )
 }
 
-export default CreateFloorPage;
+export default FloorEditPage;

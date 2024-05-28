@@ -2,8 +2,14 @@ import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {PlusCircle} from "lucide-react";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {columns} from "@/app/(admin)/master-data/floor/column";
+import {DataTable} from "@/app/(admin)/master-data/floor/data-datable";
+import {getAllData} from "@/data/floor";
 
-const FloorPage = () => {
+const FloorPage = async () => {
+
+    const floor = await getAllData();
+
     return (
         <div className="">
             <div className="flex justify-end items-center gap-2 mb-2">
@@ -24,6 +30,7 @@ const FloorPage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
+                    <DataTable columns={columns} data={floor} />
                 </CardContent>
             </Card>
         </div>

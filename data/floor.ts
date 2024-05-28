@@ -4,6 +4,9 @@ export const getAllData = async () =>  {
     const data = await db.floor.findMany({
         orderBy: {
             createdAt: "desc"
+        },
+        include: {
+            building: true
         }
     });
     return data;
