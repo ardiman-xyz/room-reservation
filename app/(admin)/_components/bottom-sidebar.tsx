@@ -14,7 +14,7 @@ export const BottomSidebar = () => {
                 </CardDescription>
             </CardHeader>
             <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
+                <Button size="sm" className="w-full h-8">
                     Upgrade
                 </Button>
             </CardContent>

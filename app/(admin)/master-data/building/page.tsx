@@ -1,10 +1,14 @@
 import Link from "next/link";
 import {PlusCircle} from "lucide-react";
 
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-
 import { getAllData } from "@/data/building"
 import {DataTable} from "@/app/(admin)/master-data/building/data-datable";
 import {columns} from "@/app/(admin)/master-data/building/column";

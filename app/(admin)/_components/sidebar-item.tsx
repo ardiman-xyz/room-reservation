@@ -3,8 +3,9 @@
 import Link from "next/link";
 import React, {useState} from "react";
 import { usePathname } from 'next/navigation'
-import {Route} from "@/types/app";
 import {ChevronRight} from "lucide-react";
+
+import {Route} from "@/types/app";
 
 export const SidebarItem = ({title, route, icon: Icon, child}: Route) => {
 
@@ -25,9 +26,7 @@ export const SidebarItem = ({title, route, icon: Icon, child}: Route) => {
                    <div>
                        <div
                            onClick={onExpanded}
-                           className={`flex items-center gap-3 rounded-lg px-4 py-2 text-muted-foreground transition-all relative cursor-pointer ${
-                               isActive ? "text-primary" : "hover:text-primary"
-                           } ${isExpand && "text-primary-light hover:text-primary-light"}` }
+                           className={`flex items-center gap-3 rounded-lg px-4 py-2 text-muted-foreground transition-all relative cursor-pointer ${isExpand && "text-primary-light hover:text-primary-light"}` }
                        >
                            <ChevronRight
                                className={`h-4 w-4 absolute top-2.5 -left-1 transition-all fill-black ${isExpand && "rotate-90 text-primary-light"}`}/>
@@ -35,11 +34,11 @@ export const SidebarItem = ({title, route, icon: Icon, child}: Route) => {
                            {title}
                        </div>
                        <ul
-                           className={`pl-11  overflow-hidden ${isExpand ? "max-h-screen py-2.5" : "max-h-0"}`}
+                           className={`pl-11  overflow-hidden ${isExpand ? "max-h-screen py-1" : "max-h-0"}`}
                        >
                            {
                                child.map(item => (
-                                   <li key={item.route} className={`text-muted-foreground hover:text-primary-light ${isActive && "text-primary-light"}`}>
+                                   <li key={item.route} className={`text-muted-foreground py-1 hover:text-primary-light ${isActive && "text-primary-light"}`}>
                                        <Link href={item.route}>{item.title}</Link>
                                    </li>
                                ))

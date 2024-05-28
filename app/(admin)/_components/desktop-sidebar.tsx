@@ -28,8 +28,12 @@ export const routes = [
         icon: Laptop,
         items: [
             {
-                title: "Building",
+                title: "Gedung",
                 route: "/master-data/building",
+            },
+            {
+                title: "Lantai",
+                route: "/master-data/floor",
             }
         ]
     },
