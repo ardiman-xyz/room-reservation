@@ -22,7 +22,7 @@ interface ConfirmModalProps {
 export const ConfirmModal = ({children, onConfirm}: ConfirmModalProps) => {
 
     const handleConfirm = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+        e.stopPropagation();
         onConfirm();
     }
 
@@ -33,15 +33,14 @@ export const ConfirmModal = ({children, onConfirm}: ConfirmModalProps) => {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>Apakah anda yakin ?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete your account
-                        and remove your data from our servers.
+                        Aksi ini tidak akan dapat di kembalikan, data akan terhapus secara permanen di database!
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={e => e.stopPropagation()}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleConfirm}>Continue</AlertDialogAction>
+                    <AlertDialogCancel onClick={e => e.stopPropagation()} className="h-8">Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleConfirm} className="h-8">Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

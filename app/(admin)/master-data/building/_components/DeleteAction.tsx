@@ -1,6 +1,7 @@
+"use client"
+
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {useTransition} from "react";
 
 import {ConfirmModal} from "@/components/modals/confirm-modal";
 import {deleteBuilding} from "@/actions/building";
@@ -22,7 +23,7 @@ export const DeleteAction =  ({id}: IDeleteAction) => {
            success: "Gedung berhasil dihapus",
            error: "Gagal mengapus data",
            finally: () => {
-               router.push("/master-data/building");
+               router.refresh();
            }
        });
     }
