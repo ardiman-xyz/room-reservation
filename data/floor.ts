@@ -31,3 +31,18 @@ export const getFloorById = async (id: string) => {
         return null;
     }
 }
+
+export const getAllByBuildingId = async (buildingId: string) => {
+
+    try {
+        return await db.floor.findMany({
+            where: {buildingId},
+            include: {
+                building: true
+            }
+        })
+    } catch (error) {
+        console.error('Error fetching floors:', error);
+        return null;
+    }
+}

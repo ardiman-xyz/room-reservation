@@ -34,6 +34,10 @@ export const routes = [
             {
                 title: "Lantai",
                 route: "/master-data/floor",
+            },
+            {
+                title: "Ruangan",
+                route: "/master-data/room",
             }
         ]
     },

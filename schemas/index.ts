@@ -40,4 +40,16 @@ export const FloorSchema = z.object({
   name: z.string().min(2, {
     message: "Name is required",
   })
+});
+
+export const RoomSchema = z.object({
+  building: z.string().min(1,{
+    message: "Gedung harus di isi",
+  }),
+  floor: z.string().min(1,{
+    message: "Lantai harus di isi",
+  }),
+  name: z.string().min(2, {
+    message: "Name is required",
+  })
 })

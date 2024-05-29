@@ -6,35 +6,35 @@ import {columns} from "@/app/(admin)/master-data/floor/column";
 import {DataTable} from "@/app/(admin)/master-data/floor/data-datable";
 import {getAllData} from "@/data/floor";
 
-const FloorPage = async () => {
+const RoomPage = async () => {
 
     const floor = await getAllData();
 
     return (
         <div className="">
             <div className="flex justify-end items-center gap-2 mb-2">
-                <Link href={"/master-data/floor/create"}>
+                <Link href={"/master-data/room/create"}>
                     <Button size="sm" className="h-8 gap-1">
                         <PlusCircle className="h-3.5 w-3.5"/>
                         <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                            Tambah lantai
+                            Tambah Ruangan
                         </span>
                     </Button>
                 </Link>
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Lantai Gedung</CardTitle>
+                    <CardTitle>Ruangan</CardTitle>
                     <CardDescription>
-                        Atur data lantai untuk gedung anda.
+                        Atur data ruangan untuk gedung dan lantai.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <DataTable columns={columns} data={floor} />
+                    {/*<DataTable columns={columns} data={floor} />*/}
                 </CardContent>
             </Card>
         </div>
     )
 }
 
-export default FloorPage;
+export default RoomPage;
