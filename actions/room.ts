@@ -6,6 +6,7 @@ import { RoomSchema } from "@/schemas";
 import { db } from "@/lib/db";
 
 import { getBuildingById } from "@/data/building";
+import { getRoomById } from "@/data/room";
 import { getFloorById } from "@/data/floor";
 
 export const create = async (values: z.infer<typeof RoomSchema>) => {
@@ -83,18 +84,14 @@ export const create = async (values: z.infer<typeof RoomSchema>) => {
 //
 // }
 //
-// export const deleteFloor = async (id: string) => {
-//
-//     const isFloorExisting = await getFloorById(id);
-//     if(!isFloorExisting) return {error: "Data lantai tidak ada!"};
-//
-//     await db.floor.delete({
-//         where: {id},
-//         include: {
-//             room: true
-//         }
-//     });
-//
-//     return {success: "Data lantai berhasil di hapus"};
-//
-// }
+
+export const deleteRoom = async (id: string) => {
+  const isRoomExist = await getRoomById(id);
+  if (!isRoomExist) return { error: "Data ruangan tidak ada!" };
+
+  await db.room.delete({
+    where: { id },
+  });
+
+  return { success: "Data runagan berhasil di hapus" };
+};

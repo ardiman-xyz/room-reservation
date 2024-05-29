@@ -16,7 +16,7 @@ export const getAllData = async () => {
   return data;
 };
 
-export const getFloorByName = async (name: string) => {
+export const getRoomByName = async (name: string) => {
   try {
     return await db.room.findFirst({
       where: { name },
@@ -26,7 +26,7 @@ export const getFloorByName = async (name: string) => {
   }
 };
 
-export const getFloorById = async (id: string) => {
+export const getRoomById = async (id: string) => {
   try {
     return await db.room.findUnique({
       where: { id },

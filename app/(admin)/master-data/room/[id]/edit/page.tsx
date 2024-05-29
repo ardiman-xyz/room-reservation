@@ -1,39 +1,28 @@
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import {getFloorById} from "@/data/floor";
-import {FloorEditForm} from "@/app/(admin)/master-data/floor/[id]/edit/_components/floor-edit-form";
-import {getAllData} from "@/data/building";
+import { getAllData as getAllBuilding } from "@/data/building";
 
-const FloorEditPage = async ({params}: {params: {id: string}}) => {
+const RoomEditPage = async ({ params }: { params: { id: string } }) => {
+  //   const room = await getAllByBuildingId();
 
-    const floor = await getFloorById(params.id);
-    const buildings = await getAllData();
+  return (
+    <div>
+      <Card className={"md:w-[600px] w-full border-none shadow-none"}>
+        <CardHeader>
+          <CardTitle>Ruangan</CardTitle>
+          <CardDescription>Atur ruangan anda dengan benar.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {/* <FloorEditForm buildings={buildings} defaultData={floor} /> */}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
-    if(!floor) return null;
-
-    return (
-        <div>
-            <Card className={"md:w-[600px] w-full border-none shadow-none"}>
-                <CardHeader>
-                    <CardTitle>Nama Lantai</CardTitle>
-                    <CardDescription>
-                        Masukkan nama lantai gedung.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <FloorEditForm
-                        buildings={buildings}
-                        defaultData={floor}
-                    />
-                </CardContent>
-            </Card>
-        </div>
-    )
-}
-
-export default FloorEditPage;
+export default RoomEditPage;

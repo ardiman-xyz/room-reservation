@@ -72,11 +72,11 @@ export const columns: ColumnDef<RoomWithFloor>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-            <DropdownMenuItem asChild>
-              <Link href={`/master-data/floor/${row.original.id}/edit`}>
+            {/* <DropdownMenuItem asChild>
+              <Link href={`/master-data/room/${row.original.id}/edit`}>
                 Ubah
               </Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuItem>
               <DeleteAction id={row.original.id} />
             </DropdownMenuItem>
