@@ -12,6 +12,31 @@ enum UserRole {
   USER
 }
 
+enum RoomImageType {
+  COVER
+  REGULAR
+}
+
+model Booking {
+  id            String @id @default(cuid())
+  userId 		String
+  user   		User   @relation(fields: [userId], references: [id])
+  startDate 	DateTime
+  endDate 		DateTime
+  dateCount 	Int
+  purpose   	String?
+  roomId		String
+  room 			Room @relation(fields: [roomId], references: [id])
+  BookingLog BookingLog[]
+}
+
+
+model BookingLog {
+  id            String @id @default(cuid())
+  bookingId 	String
+  booking 		Booking @relation(fields: [bookingId], references: [id])
+}
+
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -22,6 +47,7 @@ model User {
   image         String?
   role          UserRole @default(USER)
   Account       Account?
+  Bookings      Booking[] 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -94,6 +120,14 @@ model Room {
   Floor       Floor @relation(fields: [floorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  booking 	  Booking[]
+  RoomImages  RoomImage[]
 }
 
-
+model RoomImage {
+  id        String    @id @default(cuid())
+  roomId    String
+  room      Room      @relation(fields: [roomId], references: [id])
+  path      String
+  type      RoomImageType @default(REGULAR)
+}
