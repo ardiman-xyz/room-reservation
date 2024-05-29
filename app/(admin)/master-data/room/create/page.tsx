@@ -5,15 +5,12 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card";
-import {RoomForm} from "./_components/room-form";
+import {RoomFormContainer} from "./_components/room-form-container";
 import {getAllData as getAllBuilding} from "@/data/building";
-
-import {getAllByBuildingId} from "@/data/floor";
 
 const CreateFloorPage = async () => {
 
     const buildings = await getAllBuilding();
-
 
     return (
         <div>
@@ -25,7 +22,7 @@ const CreateFloorPage = async () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <RoomForm buildings={buildings}/>
+                    <RoomFormContainer buildings={buildings}  />
                 </CardContent>
             </Card>
         </div>
