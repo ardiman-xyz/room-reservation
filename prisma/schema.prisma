@@ -116,6 +116,8 @@ model Floor  {
 model Room {
   id          String  @id @default(cuid())
   name        String
+  capacity    Int
+  facilities  String
   floorId     String
   Floor       Floor @relation(fields: [floorId], references: [id])
   createdAt   DateTime @default(now())

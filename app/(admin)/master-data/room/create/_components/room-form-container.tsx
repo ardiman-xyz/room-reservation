@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,6 +33,7 @@ import { RoomSchema } from "@/schemas";
 import { Building, Floor } from "@prisma/client";
 import { create } from "@/actions/room";
 import { getAllByBuildingId } from "@/data/floor";
+import { Textarea } from "@/components/ui/textarea";
 
 interface IProps {
   buildings: Building[];
@@ -51,6 +53,8 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
       building: "",
       floor: "",
       name: "",
+      capacity: "",
+      facility: "",
     },
   });
 
@@ -154,6 +158,46 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
                     disabled={isPending}
                   />
                 </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="capacity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Kapaisitas</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="100."
+                    {...field}
+                    disabled={isPending}
+                    className="w-[200px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="facility"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fasilitas</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="wifi, monitor..."
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Jika lebih dari 1, pisahkan dengan kome (,).
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

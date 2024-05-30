@@ -4,12 +4,12 @@ export const ResetPasswordSchema = z.object({
   password: z.string().min(6, {
     message: "Minimum 6 characters long",
   }),
-})
+});
 
 export const ResetSchema = z.object({
   email: z.string().email({
     message: "Email tidak valid",
-  })
+  }),
 });
 
 export const LoginSchema = z.object({
@@ -34,22 +34,24 @@ export const RegisterSchema = z.object({
 });
 
 export const FloorSchema = z.object({
-  building: z.string().min(1,{
+  building: z.string().min(1, {
     message: "Gedung harus di isi",
   }),
   name: z.string().min(2, {
     message: "Name is required",
-  })
+  }),
 });
 
 export const RoomSchema = z.object({
-  building: z.string().min(1,{
+  building: z.string().min(1, {
     message: "Gedung harus di isi",
   }),
-  floor: z.string().min(1,{
+  floor: z.string().min(1, {
     message: "Lantai harus di isi",
   }),
   name: z.string().min(2, {
     message: "Name is required",
-  })
-})
+  }),
+  capacity: z.string().optional(),
+  facility: z.string().optional(),
+});
