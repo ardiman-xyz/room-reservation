@@ -90,7 +90,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
     }
 
     startTransition(() => {
-      create(values).then((data) => {
+      create(values, image.url).then((data) => {
         setError(data?.error);
         if (data?.success) {
           reset();
@@ -167,7 +167,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
                 <FormLabel>Nama Ruangan</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ruagan 1..."
+                    placeholder="Ruangan 1..."
                     {...field}
                     disabled={isPending}
                   />

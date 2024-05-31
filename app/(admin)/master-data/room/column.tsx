@@ -15,8 +15,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeleteAction } from "@/app/(admin)/master-data/floor/_components/DeleteAction";
+import Image from "next/image";
 
 export const columns: ColumnDef<RoomWithFloor>[] = [
+  {
+    id: "image",
+    header: "Gambar",
+    cell: ({ row }) => {
+      return (
+        <div>
+          <Image
+            src={row.original.imagePath}
+            alt="Cover room"
+            width={200}
+            height={200}
+          />
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "name",
     header: "Nama",

@@ -2,60 +2,74 @@
 
 import * as z from "zod";
 
-import {db} from "@/lib/db";
+import { db } from "@/lib/db";
 
-import {formCreate} from "@/schemas/building";
-import {getBuildingById, getBuildingByName} from "@/data/building";
+import { formCreate } from "@/schemas/building";
+import { getBuildingById, getBuildingByName } from "@/data/building";
 
 export const create = async (values: z.infer<typeof formCreate>) => {
-    const validatedField = formCreate.safeParse(values);
+  const validatedField = formCreate.safeParse(values);
 
-    if(!validatedField.success) return {error: "Invalid field"};
+  if (!validatedField.success) return { error: "Invalid field" };
 
-    const { name } = validatedField.data;
+  const { name } = validatedField.data;
 
-    const isNameExist = await getBuildingByName(name);
-    if(isNameExist) return {error: "Nama gedung sudah ada!"};
+  const isNameExist = await getBuildingByName(name);
+  if (isNameExist) return { error: "Nama gedung sudah ada!" };
 
-     await db.building.create({
-         data: {name}
-     })
+  await db.building.create({
+    data: { name },
+  });
 
-    return {success: "Gedung berhasil disimpan"};
+  return { success: "Gedung berhasil disimpan" };
+};
 
-}
+export const update = async (
+  values: z.infer<typeof formCreate>,
+  id: string
+) => {
+  const validatedField = formCreate.safeParse(values);
 
-export const update = async (values: z.infer<typeof formCreate>, id: string) => {
-    const validatedField = formCreate.safeParse(values);
+  if (!validatedField.success) return { error: "Invalid field" };
 
-    if(!validatedField.success) return {error: "Invalid field"};
+  const existingBuilding = await getBuildingById(id);
+  if (!existingBuilding) return { error: "Gedung tidak ditemukan!" };
 
-    const existingBuilding = await getBuildingById(id);
-    if(!existingBuilding) return {error: "Gedung tidak ditemukan!"};
+  const { name } = validatedField.data;
 
-    const { name } = validatedField.data;
+  const isNameExist = await getBuildingByName(name);
+  if (isNameExist) return { error: "Nama gedung sudah ada!" };
 
-    const isNameExist = await getBuildingByName(name);
-    if(isNameExist) return {error: "Nama gedung sudah ada!"};
+  await db.building.update({
+    where: { id: existingBuilding.id },
+    data: {
+      name,
+    },
+  });
 
-    await db.building.update({
-        where: {id: existingBuilding.id},
-        data: {
-            name
-        }
-    })
-
-    return {success: "Gedung berhasil diupdate"};
-}
+  return { success: "Gedung berhasil diupdate" };
+};
 
 export const deleteBuilding = async (id: string) => {
+  const existingBuilding = await getBuildingById(id);
+  if (!existingBuilding) return { error: "Gedung tidak ditemukan!" };
 
-    const existingBuilding = await getBuildingById(id);
-    if(!existingBuilding) return {error: "Gedung tidak ditemukan!"};
+  await db.room.deleteMany({
+    where: {
+      Floor: {
+        buildingId: existingBuilding.id,
+      },
+    },
+  });
 
-    await db.building.delete({
-        where: {id: existingBuilding.id},
+  await db.floor.deleteMany({
+    where: {
+      buildingId: existingBuilding.id,
+    },
+  });
 
-    })
-    return {success: "Gedung berhasil dihapus"};
-}
+  await db.building.delete({
+    where: { id: existingBuilding.id },
+  });
+  return { success: "Gedung berhasil dihapus" };
+};
