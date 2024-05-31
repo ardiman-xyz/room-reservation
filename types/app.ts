@@ -23,3 +23,4 @@ export type RouteChildren = {
   title: string;
   route: string;
 };
+

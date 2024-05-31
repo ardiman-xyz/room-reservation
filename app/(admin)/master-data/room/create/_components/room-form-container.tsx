@@ -34,6 +34,9 @@ import { Building, Floor } from "@prisma/client";
 import { create } from "@/actions/room";
 import { getAllByBuildingId } from "@/data/floor";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUpload from "./image-upload";
+import { CompleteUploadResponse } from "@/types/uploadthing";
+import { toast } from "sonner";
 
 interface IProps {
   buildings: Building[];
@@ -46,6 +49,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [floors, setFloors] = useState<Floor[] | []>([]);
+  const [image, setImage] = useState<CompleteUploadResponse | null>(null);
 
   const form = useForm<z.infer<typeof RoomSchema>>({
     resolver: zodResolver(RoomSchema),
@@ -71,9 +75,19 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
     }
   }, [building]);
 
+  const handleImageUploadPath = (data: CompleteUploadResponse) => {
+    setImage(data);
+  };
+
   function onSubmit(values: z.infer<typeof RoomSchema>) {
     setError("");
     setSuccess("");
+
+    if (!image) {
+      toast.error("silahkan upload gambar terlebih dahulu!");
+
+      return;
+    }
 
     startTransition(() => {
       create(values).then((data) => {
@@ -150,10 +164,10 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nama</FormLabel>
+                <FormLabel>Nama Ruangan</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Lantai 1..."
+                    placeholder="Ruagan 1..."
                     {...field}
                     disabled={isPending}
                   />
@@ -201,6 +215,12 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+
+          <ImageUpload
+            onImageChange={handleImageUploadPath}
+            data={image}
+            onDelete={() => setImage(null)}
           />
 
           <FormError message={error} />
