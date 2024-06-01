@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
 export const SearchBookingRoom = () => {
   return (
-    <div className="lg:w-1/2 w-full flex gap-x-2">
-      <Input placeholder="Cari..." className="h-8 mr-3" />
-      <Button className="h-8" variant="outline">
-        Clear
+    <div className="w-full flex gap-x-2">
+      <Input placeholder="Cari..." className=" mr-3" />
+      <Button className="flex items-center">
+        <Search className="h-4 w-4 mr-2" />
+        Cari
       </Button>
-      <Button className="h-8">Cari</Button>
     </div>
   );
 };
