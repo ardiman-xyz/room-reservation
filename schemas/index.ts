@@ -55,3 +55,24 @@ export const RoomSchema = z.object({
   capacity: z.string().optional(),
   facility: z.string().optional(),
 });
+
+export const BookingSchema = z.object({
+  roomId: z.string().min(1, {
+    message: "Ruangan harus di isi",
+  }),
+  date_start: z.string().min(1, {
+    message: "Tanggal mulai harus di isi",
+  }),
+  time_start: z.string().min(1, {
+    message: "Waktu mulai harus di isi",
+  }),
+  date_end: z.string().min(2, {
+    message: "Tanggal berakhir harus di isi",
+  }),
+  time_end: z.string().min(2, {
+    message: "Waktu berakhir harus di isi",
+  }),
+  purpose: z.string().min(2, {
+    message: "Tujuan harus di isi",
+  }),
+});

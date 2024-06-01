@@ -18,7 +18,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { create } from "@/actions/building";
+import { create } from "@/actions/booking";
 import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
@@ -33,30 +33,41 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { BookingSchema } from "@/schemas";
 
-const FormReservationRoom = () => {
+interface IProps {
+  id: string;
+}
+
+const FormReservationRoom = ({ id }: IProps) => {
   const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
 
-  const form = useForm<z.infer<typeof formCreate>>({
-    resolver: zodResolver(formCreate),
+  const form = useForm<z.infer<typeof BookingSchema>>({
+    resolver: zodResolver(BookingSchema),
     defaultValues: {
-      name: "",
+      roomId: id,
+      date_start: "",
+      time_start: "",
+      date_end: "",
+      time_end: "",
+      purpose: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formCreate>) {
+  function onSubmit(values: z.infer<typeof BookingSchema>) {
     setError("");
     setSuccess("");
 
     startTransition(() => {
       create(values).then((data) => {
+        console.log(data);
         setError(data?.error);
         if (data?.success) {
-          form.reset();
+          // form.reset();
           setSuccess(data?.success);
           router.refresh();
         }
@@ -76,74 +87,94 @@ const FormReservationRoom = () => {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tanggal & Waktu Mulai</FormLabel>
-                    <FormControl className="flex items-center gap-x-4">
-                      <div>
+              <div className="flex gap-x-3">
+                <FormField
+                  control={form.control}
+                  name="date_start"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tanggal Mulai</FormLabel>
+                      <FormControl className="flex items-center gap-x-4">
                         <Input
-                          placeholder="Gedung A..."
                           {...field}
                           type="date"
                           disabled={isPending}
                           className="w-[300px]"
                         />
-                        -
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="time_start"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Waktu Mulai</FormLabel>
+                      <FormControl className="flex items-center gap-x-4">
                         <Input
-                          placeholder="Gedung A..."
                           {...field}
                           type="time"
                           disabled={isPending}
                           className="w-max"
                         />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tanggal & Waktu Berakhir</FormLabel>
-                    <FormControl className="flex items-center gap-x-4">
-                      <div>
+              <div className="flex gap-x-3">
+                <FormField
+                  control={form.control}
+                  name="date_end"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tanggal Berakhir</FormLabel>
+                      <FormControl className="flex items-center gap-x-4">
                         <Input
-                          placeholder="Gedung A..."
                           {...field}
                           type="date"
                           disabled={isPending}
                           className="w-[300px]"
                         />
-                        -
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="time_end"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Waktu Berakhir</FormLabel>
+                      <FormControl className="flex items-center gap-x-4">
                         <Input
-                          placeholder="Gedung A..."
                           {...field}
                           type="time"
                           disabled={isPending}
                           className="w-max"
                         />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <FormField
                 control={form.control}
-                name="name"
+                name="purpose"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Keperluan</FormLabel>
                     <FormControl className="flex items-center gap-x-4">
-                      <Textarea placeholder="Kegiatan ini..." />
+                      <Textarea {...field} placeholder="Kegiatan ini..." />
                     </FormControl>
                     <FormDescription>
                       Silahkan deskripsikan keperluan anda

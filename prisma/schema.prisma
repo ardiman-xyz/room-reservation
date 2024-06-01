@@ -12,9 +12,10 @@ enum UserRole {
   USER
 }
 
-enum RoomImageType {
-  COVER
-  REGULAR
+enum BookingLogStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
 }
 
 model Booking {
@@ -35,6 +36,11 @@ model BookingLog {
   id            String @id @default(cuid())
   bookingId 	String
   booking 		Booking @relation(fields: [bookingId], references: [id])
+  status      BookingLogStatus @default(SUBMITTED)
+  description String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model User {

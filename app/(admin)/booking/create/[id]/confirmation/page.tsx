@@ -9,7 +9,7 @@ const ConfirmationPage = ({ params }: { params: { id: string } }) => {
         <DetailRoom />
       </div>
       <div className="mt-5">
-        <FormReservationRoom />
+        <FormReservationRoom id={params.id} />
       </div>
     </div>
   );
