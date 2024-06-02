@@ -1,5 +1,12 @@
 import { LucideIcon } from "lucide-react";
-import { Room, Floor, Building } from "@prisma/client";
+import {
+  Room,
+  Floor,
+  Building,
+  Booking,
+  User,
+  BookingLog,
+} from "@prisma/client";
 
 export type FloorWithBuilding = Floor & {
   building: Building;
@@ -24,3 +31,8 @@ export type RouteChildren = {
   route: string;
 };
 
+export type BookingWithRelations = Booking & {
+  user: User;
+  room: RoomWithFloor;
+  BookingLog: BookingLog[];
+};

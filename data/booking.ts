@@ -2,14 +2,28 @@
 
 import { db } from "@/lib/db";
 
-// export const getAllData = async () =>  {
-//   const data = await db.booking.findMany({
-//       orderBy: {
-//           createdAt: "desc"
-//       }
-//   });
-//   return data;
-// }
+export const getAllData = async () => {
+  const data = await db.booking.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      room: {
+        include: {
+          Floor: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+      user: true,
+      BookingLog: true,
+    },
+  });
+
+  return data;
+};
 
 export const getBookingByDateTime = async (
   startDate: Date,

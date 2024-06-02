@@ -1,4 +1,5 @@
 import React from "react";
+import { PlusCircle } from "lucide-react";
 
 import {
   Card,
@@ -9,9 +10,14 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
 
-const BookingPage = () => {
+import { getAllData } from "@/data/booking";
+import { DataTable } from "./data-datable";
+import { columns } from "./column";
+
+const BookingPage = async () => {
+  const bookings = await getAllData();
+
   return (
     <div className="">
       <div className="flex justify-end items-center gap-2 mb-2">
@@ -29,7 +35,9 @@ const BookingPage = () => {
           <CardTitle>Peminjaman</CardTitle>
           <CardDescription>List data peminjaman</CardDescription>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+          <DataTable columns={columns} data={bookings} />
+        </CardContent>
       </Card>
     </div>
   );
