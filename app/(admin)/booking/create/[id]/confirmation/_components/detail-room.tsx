@@ -17,8 +17,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Room } from "@prisma/client";
+import { getRoomByIdAndStatus } from "@/data/room";
 
-const DetailRoom = () => {
+interface DetailRoomProps {
+  id: string;
+}
+
+const DetailRoom = async ({ id }: DetailRoomProps) => {
+  const data = await getRoomByIdAndStatus(id);
+
+  if (!data.room) return null;
+
   return (
     <Tabs defaultValue="account" className="w-full">
       <TabsList>
@@ -28,8 +38,10 @@ const DetailRoom = () => {
       <TabsContent value="account">
         <Card>
           <CardHeader>
-            <CardTitle>Aula</CardTitle>
-            <CardDescription>Gedung A, Lantai 1</CardDescription>
+            <CardTitle className="capitalize">{data.room.name}</CardTitle>
+            <CardDescription>
+              {data.room.Floor.building.name}, {data.room.Floor.name}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-4">
@@ -38,8 +50,12 @@ const DetailRoom = () => {
                   Status
                 </p>
                 <div className="flex items-center gap-x-2 mt-1">
-                  <div className="h-2 w-2 rounded-full bg-green-400" />
-                  <p className="text-sm ">Tersedia hari ini</p>
+                  <div
+                    className={`h-2 w-2 rounded-full ${
+                      data.status ? "bg-green-400" : "bg-red-400"
+                    }`}
+                  />
+                  <p className="text-sm ">{data.statusText}</p>
                 </div>
               </div>
               <div>
@@ -47,7 +63,7 @@ const DetailRoom = () => {
                   Fasilitas
                 </p>
                 <div className="flex items-center gap-x-2 mt-1">
-                  <p className="text-sm ">Tersedia</p>
+                  <p className="text-sm ">{data.room.facilities}</p>
                 </div>
               </div>
               <div>
@@ -55,7 +71,7 @@ const DetailRoom = () => {
                   Daya Tampung
                 </p>
                 <div className="flex items-center gap-x-2 mt-1">
-                  <p className="text-sm ">100 Orang</p>
+                  <p className="text-sm ">{data.room.capacity} Orang</p>
                 </div>
               </div>
             </div>

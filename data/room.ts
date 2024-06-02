@@ -1,5 +1,8 @@
 import { db } from "@/lib/db";
 
+import { startOfDay, endOfDay, isWithinInterval, format } from "date-fns";
+// import { zonedTimeToUtc } from 'date-fns-tz';
+
 export const getAllData = async () => {
   const data = await db.room.findMany({
     orderBy: {
@@ -30,8 +33,91 @@ export const getRoomById = async (id: string) => {
   try {
     return await db.room.findUnique({
       where: { id },
+      include: {
+        Floor: {
+          include: {
+            building: true,
+          },
+        },
+      },
     });
   } catch {
     return null;
+  }
+};
+
+export const getRoomByIdAndStatus = async (id: string) => {
+  try {
+    const room = await db.room.findUnique({
+      where: { id },
+      include: {
+        Floor: {
+          include: {
+            building: true,
+          },
+        },
+      },
+    });
+
+    if (!room) {
+      return {
+        status: "not found",
+        statusText: "Ruangan tidak ditemukan",
+        room: null,
+      };
+    }
+
+    const now = new Date();
+    const startOfDayUtc = startOfDay(now);
+    const endOfDayUtc = endOfDay(now);
+
+    const bookings = await db.booking.findMany({
+      where: {
+        roomId: id,
+        OR: [
+          {
+            startDate: {
+              gte: startOfDayUtc,
+              lte: endOfDayUtc,
+            },
+          },
+          {
+            endDate: {
+              gte: startOfDayUtc,
+              lte: endOfDayUtc,
+            },
+          },
+        ],
+      },
+    });
+
+    let status = true;
+    let statusText = "Ruangan Tersedia hari ini ";
+
+    if (bookings.length > 0) {
+      const currentBooking = bookings.find(
+        (booking) => booking.startDate <= now && booking.endDate >= now
+      );
+
+      if (currentBooking) {
+        status = false;
+        statusText = "Ruangan sedang ada kegiatan saat ini";
+      } else {
+        const nextBooking = bookings.find((booking) => booking.startDate > now);
+        if (nextBooking) {
+          const endTime = nextBooking.startDate;
+          status = true;
+          statusText = `Rersedia sampai pukul ${endTime.getHours()}:${endTime.getMinutes()}`;
+        }
+      }
+    }
+
+    return { status, statusText, room };
+  } catch {
+    return {
+      status: "error",
+      statusText: "Terjadi kesalahan saat mengambil data ruangan",
+      room: null,
+    };
   }
 };

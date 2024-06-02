@@ -16,7 +16,7 @@ const RoomItem = ({ room }: RoomItemProps) => {
   return (
     <Link href={`/booking/create/${room.id}/confirmation`}>
       <div className="w-full rounded-lg p-4 bg-white flex gap-x-4 cursor-pointer border hover:shadow-md transition-all hover:shadow-gray-200">
-        <Image src={room.imagePath} alt="Cover room" width={200} height={200} />
+        <Image src={room.imagePath} alt="Cover room" width={250} height={200} />
         <div className="ml-4 w-full flex flex-col justify-between">
           <div>
             <p className="text-sm text-muted-foreground font-medium">

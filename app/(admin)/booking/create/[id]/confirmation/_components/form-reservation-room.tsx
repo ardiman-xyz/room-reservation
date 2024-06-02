@@ -64,10 +64,9 @@ const FormReservationRoom = ({ id }: IProps) => {
 
     startTransition(() => {
       create(values).then((data) => {
-        console.log(data);
         setError(data?.error);
         if (data?.success) {
-          // form.reset();
+          form.reset();
           setSuccess(data?.success);
           router.refresh();
         }
