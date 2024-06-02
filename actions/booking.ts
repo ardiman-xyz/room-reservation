@@ -31,13 +31,10 @@ export const create = async (values: z.infer<typeof BookingSchema>) => {
     isRoomExist.id
   );
 
-  console.log(isBookingExist);
-
-  return;
-
   if (isBookingExist)
     return {
-      error: "Peminjaman gagal, kegiatan lain ada di waktu yang anda pilih!",
+      error:
+        "Peminjaman gagal, kegiatan lain ada di waktu yang anda pilih!, silahkan cek di 'jadwal ruangan' diatas!",
     };
 
   if (!session?.user?.id) return { error: "Anauthorize" };

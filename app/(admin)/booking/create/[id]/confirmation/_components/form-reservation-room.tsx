@@ -189,7 +189,7 @@ const FormReservationRoom = ({ id }: IProps) => {
 
               <div className={"flex gap-2"}>
                 <Button asChild variant="outline" size="sm" className="h-8">
-                  <Link href={"/master-data/building"}>Batal</Link>
+                  <Link href={"/booking/create"}>Batal</Link>
                 </Button>
                 <Button disabled={isPending} size={"sm"} className="h-8">
                   Save

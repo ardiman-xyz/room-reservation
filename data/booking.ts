@@ -3,26 +3,25 @@
 import { db } from "@/lib/db";
 
 export const getBookingByDateTime = async (
-  startDateTime: Date,
-  endDateTime: Date,
+  startDate: Date,
+  endDate: Date,
   roomId: string
-) => {
+): Promise<boolean> => {
   const bookings = await db.booking.findMany({
     where: {
-      roomId,
-      AND: [
+      roomId: roomId,
+      OR: [
         {
-          startDate: startDateTime,
-          endDate: endDateTime,
+          startDate: {
+            lte: startDate,
+          },
+          endDate: {
+            gte: endDate,
+          },
         },
       ],
     },
   });
 
-  return bookings.some(
-    (booking) =>
-      (startDateTime >= booking.startDate && startDateTime < booking.endDate) ||
-      (endDateTime > booking.startDate && endDateTime <= booking.endDate) ||
-      (startDateTime <= booking.startDate && endDateTime >= booking.endDate)
-  );
+  return bookings.length > 0;
 };
