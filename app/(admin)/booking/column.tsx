@@ -18,6 +18,8 @@ import { DeleteAction } from "@/app/(admin)/master-data/building/_components/Del
 import { BookingWithRelations } from "@/types/app";
 import { BookingLogStatus } from "@prisma/client";
 import StatusBadge from "./_components/status-badge";
+import { Hint } from "@/components/ui/Hint";
+import StatusAction from "./_components/status-action";
 
 export const columns: ColumnDef<BookingWithRelations>[] = [
   {
@@ -121,7 +123,7 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
     id: "status",
     header: "Status",
     cell: ({ row }) => {
-      const { BookingLog } = row.original;
+      const { BookingLog, id } = row.original;
 
       if (BookingLog && BookingLog.length > 0) {
         const latestLog = BookingLog.sort(
@@ -130,7 +132,7 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
         )[0];
         return (
           <div>
-            <StatusBadge status={latestLog.status as BookingLogStatus} />
+            <StatusAction status={latestLog.status} bookingId={id} />
             {BookingLog.length > 1 && <p>Riwayat</p>}
           </div>
         );
