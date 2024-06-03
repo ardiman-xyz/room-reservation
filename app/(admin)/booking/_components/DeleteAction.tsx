@@ -4,7 +4,7 @@ import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 
 import {ConfirmModal} from "@/components/modals/confirm-modal";
-import {deleteBuilding} from "@/actions/building";
+import {deleteById} from "@/actions/booking";
 
 interface IDeleteAction {
     id: string;
@@ -16,11 +16,11 @@ export const DeleteAction =  ({id}: IDeleteAction) => {
 
     const onDelete = () => {
 
-       const promise = deleteBuilding(id);
+       const promise = deleteById(id);
 
        toast.promise(promise, {
            loading: "Menghapus data",
-           success: "Peminjaman berhasil dihapus",
+           success: "Gedung berhasil dihapus",
            error: "Gagal mengapus data",
            finally: () => {
                router.refresh();

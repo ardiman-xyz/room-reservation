@@ -80,3 +80,24 @@ export const updateStatus = async (bookingId: string, status: BookingLogStatus, 
 
     return {success: "Status berhasil diubah"};
 }
+
+export const deleteById = async (id: string) => {
+  const isBookingExist = await getBookingById(id);
+  if(!isBookingExist) return {error: "Data tidak ditemukan"};
+
+  try {
+    await db.$transaction([
+      db.bookingLog.deleteMany({
+        where: { bookingId: id },
+      }),
+      db.booking.delete({
+        where: { id },
+      }),
+    ]);
+
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { error: "Terjadi kesalahan saat menghapus data" };
+  }
+}

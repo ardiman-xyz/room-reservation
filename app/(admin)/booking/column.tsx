@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { DeleteAction } from "@/app/(admin)/master-data/building/_components/DeleteAction";
+import { DeleteAction } from "./_components/DeleteAction";
 import { BookingWithRelations } from "@/types/app";
 import StatusAction from "./_components/status-action";
 import {StatusHistory} from "./_components/status-history";
