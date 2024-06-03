@@ -5,10 +5,11 @@ import * as z from "zod";
 import { db } from "@/lib/db";
 import { BookingSchema } from "@/schemas";
 import { getRoomById } from "@/data/room";
-import { getBookingByDateTime } from "@/data/booking";
+import {getBookingByDateTime, getBookingById} from "@/data/booking";
 
 import { auth } from "@/auth";
 import { differenceInDays } from "date-fns";
+import {BookingLogStatus} from "@prisma/client";
 
 export const create = async (values: z.infer<typeof BookingSchema>) => {
   const session = await auth();
@@ -60,3 +61,22 @@ export const create = async (values: z.infer<typeof BookingSchema>) => {
 
   return { success: "Data peminjaman Berhasil di simpan" };
 };
+
+
+export const updateStatus = async (bookingId: string, status: BookingLogStatus, description: string) => {
+
+    const isBookingExist = await getBookingById(bookingId);
+    if(!isBookingExist) return { error: "Data tidak ditemukan" };
+
+    if(!status) return {error: "Input status harus di isi!" };
+
+    await db.bookingLog.create({
+      data: {
+        bookingId: bookingId,
+        status,
+        description
+      }
+    });
+
+    return {success: "Status berhasil diubah"};
+}

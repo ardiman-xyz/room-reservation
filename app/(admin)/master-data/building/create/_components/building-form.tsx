@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useState, useTransition} from "react";
+import {useRouter} from "next/navigation";
 import { z } from "zod"
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -21,7 +22,6 @@ import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
 import {formCreate} from "@/schemas/building";
-import {useRouter} from "next/navigation";
 
 
 export const BuildingForm = () => {

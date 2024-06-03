@@ -48,3 +48,9 @@ export const getBookingByDateTime = async (
 
   return bookings.length > 0;
 };
+
+export const getBookingById = async (id: string) => {
+  return db.booking.findFirst({
+    where: {id}
+  });
+}

@@ -16,10 +16,8 @@ import {
 import Link from "next/link";
 import { DeleteAction } from "@/app/(admin)/master-data/building/_components/DeleteAction";
 import { BookingWithRelations } from "@/types/app";
-import { BookingLogStatus } from "@prisma/client";
-import StatusBadge from "./_components/status-badge";
-import { Hint } from "@/components/ui/Hint";
 import StatusAction from "./_components/status-action";
+import {StatusHistory} from "./_components/status-history";
 
 export const columns: ColumnDef<BookingWithRelations>[] = [
   {
@@ -131,9 +129,11 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )[0];
         return (
-          <div>
+          <div className="flex items-center gap-x-2">
             <StatusAction status={latestLog.status} bookingId={id} />
-            {BookingLog.length > 1 && <p>Riwayat</p>}
+            {BookingLog.length > 1 && (
+                <StatusHistory data={BookingLog} />
+            )}
           </div>
         );
       }
