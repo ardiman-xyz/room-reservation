@@ -5,7 +5,7 @@ import * as z from "zod";
 import { db } from "@/lib/db";
 import { BookingSchema } from "@/schemas";
 import { getRoomById } from "@/data/room";
-import {getBookingByDateTime, getBookingById} from "@/data/booking";
+import {getBookingByDateTime, getBookingByDateTimeExcludingId, getBookingById} from "@/data/booking";
 
 import { auth } from "@/auth";
 import { differenceInDays } from "date-fns";
@@ -100,4 +100,66 @@ export const deleteById = async (id: string) => {
     console.error(error);
     return { error: "Terjadi kesalahan saat menghapus data" };
   }
+}
+
+export const update = async (values: z.infer<typeof BookingSchema>, bookingId: string) => {
+
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized" };
+
+  const existingBooking = await getBookingById(bookingId);
+  if (!existingBooking) return { error: "Data tidak ditemukan" };
+
+  const validatedField = BookingSchema.safeParse(values);
+  if (!validatedField.success) return { error: "Invalid fields" };
+
+  const { date_start, time_start, date_end, time_end, roomId, purpose } = validatedField.data;
+
+  const isRoomExist = await getRoomById(roomId);
+  if (!isRoomExist) return { error: "Ruangan tidak ditemukan!" };
+
+  const startDate = new Date(`${date_start}T${time_start}`);
+  const endDate = new Date(`${date_end}T${time_end}`);
+
+  const isBookingExist = await getBookingByDateTimeExcludingId(
+      startDate,
+      endDate,
+      isRoomExist.id,
+      bookingId
+  );
+
+  if (isBookingExist) {
+    return {
+      error:
+          "Pembaruan gagal, kegiatan lain ada di waktu yang anda pilih!, silahkan cek di 'jadwal ruangan' diatas!",
+    };
+  }
+
+  const dateCount = differenceInDays(endDate, startDate) + 1;
+
+  await db.$transaction(async (prisma) => {
+    await prisma.bookingLog.deleteMany({
+      where: { bookingId }
+    });
+
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        userId: session.user.id,
+        startDate,
+        endDate,
+        dateCount,
+        purpose,
+        roomId: isRoomExist.id,
+      },
+    });
+
+    await prisma.bookingLog.create({
+      data: {
+        bookingId,
+      },
+    });
+  });
+
+  return { success: "Data peminjaman berhasil diperbarui" };
 }

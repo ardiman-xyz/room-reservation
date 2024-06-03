@@ -49,8 +49,32 @@ export const getBookingByDateTime = async (
   return bookings.length > 0;
 };
 
+export const getBookingByDateTimeExcludingId = async (
+    startDate: Date,
+    endDate: Date,
+    roomId: string,
+    excludeBookingId: string
+) => {
+  return db.booking.findFirst({
+    where: {
+      roomId,
+      id: { not: excludeBookingId },
+      OR: [
+        {
+          startDate: { lte: endDate },
+          endDate: { gte: startDate }
+        }
+      ]
+    }
+  });
+};
+
+
 export const getBookingById = async (id: string) => {
   return db.booking.findFirst({
-    where: {id}
+    where: {id},
+    include: {
+       room: true,
+    }
   });
 }

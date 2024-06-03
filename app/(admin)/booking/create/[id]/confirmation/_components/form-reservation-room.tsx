@@ -75,7 +75,6 @@ const FormReservationRoom = ({ id }: IProps) => {
   }
 
   return (
-    <div>
       <Card>
         <CardHeader>
           <CardTitle>Form Peminjaman</CardTitle>
@@ -198,7 +197,6 @@ const FormReservationRoom = ({ id }: IProps) => {
           </Form>
         </CardContent>
       </Card>
-    </div>
   );
 };
 

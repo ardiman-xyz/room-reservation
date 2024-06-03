@@ -54,7 +54,7 @@ export const StatusHistory = ({ data }: IProps) => {
                                         <StatusBadge status={item.status}/>
                                     </div>
                                     <div className="bg-gray-100 rounded-sm p-2">
-                                        <p className="text-base text-muted-foreground ">
+                                        <p className="text-sm ">
                                             {item.description}
                                         </p>
                                         <p className="text-sm text-muted-foreground">{format(new Date(item.createdAt), 'dd/MM/yyyy HH:mm', {locale: id})}</p>

@@ -154,7 +154,7 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/master-data/building/${row.original.id}/edit`}>
+              <Link href={`/booking/${row.original.id}/edit`}>
                 Ubah
               </Link>
             </DropdownMenuItem>
