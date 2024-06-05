@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/db";
+import {db} from "@/lib/db";
 
 export const getAllData = async () => {
   const data = await db.booking.findMany({
@@ -24,6 +24,46 @@ export const getAllData = async () => {
 
   return data;
 };
+
+export const getAllDataWithApprovedLogs = async () => {
+  const data = await db.booking.findMany({
+    where: {
+      BookingLog: {
+        some: {
+          status: "APPROVED",
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      room: {
+        include: {
+          Floor: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+      user: true,
+      BookingLog: {
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 1,
+      },
+    },
+  });
+
+  return data.filter(booking => {
+    const latestLog = booking.BookingLog[0];
+    return latestLog && latestLog.status === "APPROVED";
+  });
+};
+
+
 
 export const getBookingByDateTime = async (
   startDate: Date,

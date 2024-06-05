@@ -36,3 +36,4 @@ export type BookingWithRelations = Booking & {
   room: RoomWithFloor;
   BookingLog: BookingLog[];
 };
+
