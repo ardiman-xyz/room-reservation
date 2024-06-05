@@ -1,5 +1,8 @@
+"use client"
+
 import {CircleUser} from "lucide-react";
 import React from "react";
+
 
 import {
     DropdownMenu,
@@ -9,8 +12,10 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
+import {signOut} from "next-auth/react";
 
 export const UserButton = () => {
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -29,7 +34,7 @@ export const UserButton = () => {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/', redirect:true })}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
