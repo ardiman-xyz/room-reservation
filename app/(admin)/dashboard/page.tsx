@@ -1,14 +1,14 @@
+"use client"
 
-import { Metadata } from 'next'
-
-export const metadata: Metadata = {
-    title: 'Dashboard',
-}
+import {useCurrentUser} from "@/hooks/use-current-user";
 
 const DashboardPage = () => {
+
+    const user = useCurrentUser();
+
     return (
         <div>
-            dashboard page
+            dashboard page {JSON.stringify(user)}
         </div>
     )
 }

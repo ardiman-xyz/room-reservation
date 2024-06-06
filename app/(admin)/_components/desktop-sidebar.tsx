@@ -8,17 +8,20 @@ import { Logo } from "@/components/logo";
 import { Notification } from "@/app/(admin)/_components/notification";
 import { BottomSidebar } from "@/app/(admin)/_components/bottom-sidebar";
 import { SidebarItem } from "@/app/(admin)/_components/sidebar-item";
+import {UserRole} from "@prisma/client";
 
 export const routes = [
   {
     title: "Dashboard",
     route: "/dashboard",
     icon: Home,
+    role: "ADMIN" || "USER"
   },
   {
     title: "Master data",
     route: "/master-data",
     icon: Laptop,
+    role: "ADMIN",
     items: [
       {
         title: "Gedung",
@@ -38,20 +41,26 @@ export const routes = [
     title: "Peminjaman",
     route: "/booking",
     icon: Container,
+    role: "ADMIN",
   },
   {
     title: "Kalender",
     route: "/calendar",
     icon: Calendar,
+    role: "ADMIN",
   },
   {
     title: "Pengaturan",
     route: "/settings/general",
     icon: Settings,
+    role: "ADMIN",
   },
 ];
 
+
 export const DesktopSidebar = () => {
+
+
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -69,6 +78,7 @@ export const DesktopSidebar = () => {
                 route={route.route}
                 icon={route.icon}
                 child={route.items}
+                role={route.role as UserRole}
                 key={index}
               />
             ))}

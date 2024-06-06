@@ -6,6 +6,7 @@ import {
   Booking,
   User,
   BookingLog,
+  UserRole,
 } from "@prisma/client";
 
 export type FloorWithBuilding = Floor & {
@@ -24,6 +25,7 @@ export type Route = {
   route: string;
   icon: LucideIcon;
   child?: RouteChildren[];
+  role: UserRole
 };
 
 export type RouteChildren = {
