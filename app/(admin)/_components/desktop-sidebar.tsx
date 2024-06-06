@@ -46,7 +46,7 @@ export const routes = [
   },
   {
     title: "Pengaturan",
-    route: "/settings",
+    route: "/settings/general",
     icon: Settings,
   },
 ];

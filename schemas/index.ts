@@ -77,4 +77,18 @@ export const BookingSchema = z.object({
   }),
 });
 
-// export const
+export const ProfileAccountSchema = z.object({
+  name: z.string().min(1, "Nama tidak boleh kosong"),
+  email: z.string().email("Email tidak valid"),
+});
+
+export const PasswordUserSchema = z.object({
+  currentPassword: z.string().min(1, {
+    message: "Password lama harus di isi",
+  }),
+  password: z.string().min(8, "Password minimal 8 karakter"),
+  confirmPassword: z.string().min(8, "Konfirmasi password minimal 8 karakter"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Password tidak sesuai",
+  path: ["confirmPassword"],
+});

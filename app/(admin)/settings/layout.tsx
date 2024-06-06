@@ -1,7 +1,12 @@
+"use client"
+
 import Link from "next/link";
-import {Package2} from "lucide-react";
+import {usePathname} from "next/navigation";
+import {cn} from "@/lib/utils";
 
 const LayoutSetting = ({children}: {children: React.ReactNode}) => {
+
+    const pathname = usePathname();
 
     return (
         <div className={"container mx-auto max-w-7xl"}>
@@ -13,11 +18,10 @@ const LayoutSetting = ({children}: {children: React.ReactNode}) => {
                         <nav
                             className="grid text-sm text-muted-foreground"
                         >
-                            <Link href="#" className="font-semibold text-primary hover:bg-gray-100 p-2">
+                            <Link href={'/settings/general'} className={cn("hover:bg-gray-100 p-2", pathname === "/settings/general" && "bg-gray-100 font-bold text-black")}>
                                 Umum
                             </Link>
-                            <Link href="#" className="hover:bg-gray-100 p-2">Akun</Link>
-                            <Link href="#" className="hover:bg-gray-100 p-2">Keamanan</Link>
+                            <Link href={'/settings/account'} className={cn("hover:bg-gray-100 p-2", pathname === "/settings/account" && "bg-gray-100 font-bold text-black")}>Akun</Link>
                         </nav>
                     </div>
                 </div>

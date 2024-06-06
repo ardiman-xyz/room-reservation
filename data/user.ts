@@ -1,9 +1,16 @@
 import {db} from "@/lib/db";
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByEmail = async (email: string, excludeId?: string) => {
     try {
-        return await db.user.findUnique({
-            where: {email}
+        return await db.user.findFirst({
+            where: {
+                email: {
+                    equals: email,
+                },
+                NOT: {
+                    id: excludeId,
+                },
+            },
         })
     }catch {
         return null;
