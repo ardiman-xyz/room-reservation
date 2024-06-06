@@ -10,7 +10,7 @@ import {
 import ImageUpload from "@/components/image-upload";
 import React, {useState, useTransition} from "react";
 import {toast} from "sonner";
-import {saveLogo, saveWebName} from "@/actions/setting";
+import {saveLogo} from "@/actions/setting";
 import {useRouter} from "next/navigation";
 
 interface LogoFormProps {
