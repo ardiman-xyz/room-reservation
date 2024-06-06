@@ -62,7 +62,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
     },
   });
 
-  const { watch, getValues, formState, reset } = form;
+  const { watch, reset } = form;
   const building = watch("building");
 
   useEffect(() => {

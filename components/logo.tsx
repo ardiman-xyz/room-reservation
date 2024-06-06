@@ -15,7 +15,7 @@ export const Logo = ({width = 50, height = 39, withTitle = false}: LogoProps) =>
                       className="ccustom" fill="#312ECB"></path>
             </svg>
             {
-                !withTitle && <span className="">SIM Ruang</span>
+                withTitle && <span className="ml-2">SIM Ruang</span>
             }
         </div>
     )

@@ -18,48 +18,57 @@ enum BookingLogStatus {
   REJECTED
 }
 
+model SiteSetting  {
+  id        String @id @default(cuid())
+  name      String?
+  logo      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Booking {
-  id            String @id @default(cuid())
-  userId 		String
-  user   		User   @relation(fields: [userId], references: [id])
+  id          String @id @default(cuid())
+  userId 		  String
+  user   		  User   @relation(fields: [userId], references: [id])
   startDate 	DateTime
   endDate 		DateTime
   dateCount 	Int
   purpose   	String?
-  roomId		String
-  room 			Room @relation(fields: [roomId], references: [id])
-  BookingLog BookingLog[]
+  roomId		  String
+  room 			  Room @relation(fields: [roomId], references: [id])
+  BookingLog  BookingLog[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 
 model BookingLog {
   id            String @id @default(cuid())
-  bookingId 	String
-  booking 		Booking @relation(fields: [bookingId], references: [id])
-  status      BookingLogStatus @default(SUBMITTED)
-  description String?
+  bookingId 	  String
+  booking 		  Booking @relation(fields: [bookingId], references: [id])
+  status        BookingLogStatus @default(SUBMITTED)
+  description   String?
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  username      String?         @unique
+  username      String?    @unique
   password      String?
-  email         String?         @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   role          UserRole @default(USER)
   Account       Account?
   Bookings      Booking[] 
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Account {
@@ -104,11 +113,11 @@ model PasswordResetToken {
 }
 
 model Building {
-  id      String  @id @default(cuid())
-  name    String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  floors   Floor[]
+  id          String  @id @default(cuid())
+  name        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  floors      Floor[]
 }
 
 model Floor  {
