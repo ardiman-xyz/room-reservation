@@ -1,4 +1,4 @@
-export const publicRoutes = ["/", "/api/uploadthing", "/info"];
+export const publicRoutes = ["/", "/api/uploadthing", "/terms"];
 
 /**
  * An array of routes tha are used for authentication

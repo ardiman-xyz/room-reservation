@@ -1,9 +1,23 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import React from "react";
 import { Bookmark } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
 
 export const Jumbotron = () => {
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push("/auth/register");
+  };
+
+  const onCreateAccount = () => {
+    router.push("/account");
+  };
+
   return (
     <div className="flex lg:flex-row flex-col gap-x-20">
       <div className="lg:w-1/2 w-full lg:order-1 order-2 lg:mt-0 mt-10">
@@ -15,10 +29,20 @@ export const Jumbotron = () => {
           dengan mudah. Sistem kami menyederhanakan proses pemesanan untuk Anda.
         </p>
         <div className="mt-10 flex gap-x-3 w-full">
-          <Button variant="outline" size="xl" className="w-full lg:w-max">
+          <Button
+            variant="outline"
+            size="xl"
+            className="w-full lg:w-max"
+            onClick={onClick}
+          >
             Buat akun
           </Button>
-          <Button variant="primary" size="xl" className="w-full lg:w-max">
+          <Button
+            variant="primary"
+            size="xl"
+            className="w-full lg:w-max"
+            onClick={onClick}
+          >
             <Bookmark className="size-4 mr-3" />
             Reservasi sekarang
           </Button>

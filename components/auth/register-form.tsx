@@ -13,6 +13,7 @@ import { RegisterSchema } from "@/schemas";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -83,11 +84,14 @@ const RegisterForm = () => {
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="example@gmail.com"
+                    placeholder="example@umkendari.ac.id"
                     {...field}
                     disabled={isPending}
                   />
                 </FormControl>
+                <FormDescription>
+                  Gunakan email kampus, sebagai identitas yang sah.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

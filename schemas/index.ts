@@ -22,9 +22,14 @@ export const LoginSchema = z.object({
 });
 
 export const RegisterSchema = z.object({
-  email: z.string().email({
-    message: "Email not valid",
-  }),
+  email: z
+    .string()
+    .email({
+      message: "Email not valid",
+    })
+    .refine((email) => email.endsWith("@umkendari.ac.id"), {
+      message: "Email harus dari umkendari.ac.id domain",
+    }),
   password: z.string().min(6, {
     message: "Minimum 6 characters long",
   }),
@@ -82,13 +87,17 @@ export const ProfileAccountSchema = z.object({
   email: z.string().email("Email tidak valid"),
 });
 
-export const PasswordUserSchema = z.object({
-  currentPassword: z.string().min(1, {
-    message: "Password lama harus di isi",
-  }),
-  password: z.string().min(8, "Password minimal 8 karakter"),
-  confirmPassword: z.string().min(8, "Konfirmasi password minimal 8 karakter"),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Password tidak sesuai",
-  path: ["confirmPassword"],
-});
+export const PasswordUserSchema = z
+  .object({
+    currentPassword: z.string().min(1, {
+      message: "Password lama harus di isi",
+    }),
+    password: z.string().min(8, "Password minimal 8 karakter"),
+    confirmPassword: z
+      .string()
+      .min(8, "Konfirmasi password minimal 8 karakter"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Password tidak sesuai",
+    path: ["confirmPassword"],
+  });

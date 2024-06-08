@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Info } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -16,10 +17,11 @@ export const TopBar = () => {
         </div>
         <ul className="flex items-center gap-x-4">
           <li
-            className="hover:underline cursor-pointer"
-            onClick={() => router.push("/info")}
+            className="hover:underline cursor-pointer flex items-center gap-x-2"
+            onClick={() => router.push("/terms")}
           >
-            Cara Penggunaan
+            <Info className="h-4 w-4" />
+            Ketentuan aplikasi
           </li>
           <li>
             <div />
