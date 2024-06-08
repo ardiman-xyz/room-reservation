@@ -51,8 +51,8 @@ const LoginForm = () => {
 
   return (
     <CardWrapper
-      headerLabel={"Welcome back"}
-      backButtonLabel={"Don't have an account?"}
+      headerLabel={"Selamat datang kembali"}
+      backButtonLabel={"Belum punya akun?"}
       backButtonHref={"/auth/register"}
     >
       <Form {...form}>
@@ -95,7 +95,7 @@ const LoginForm = () => {
                   asChild
                   className={"px-0 font-normal"}
                 >
-                  <Link href={"/auth/reset"}>Forgot password?</Link>
+                  <Link href={"/auth/reset"}>Lupa password?</Link>
                 </Button>
                 <FormMessage />
               </FormItem>
