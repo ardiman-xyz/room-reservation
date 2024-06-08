@@ -17,7 +17,7 @@ import Link from "next/link";
 import { DeleteAction } from "./_components/DeleteAction";
 import { BookingWithRelations } from "@/types/app";
 import StatusAction from "./_components/status-action";
-import {StatusHistory} from "./_components/status-history";
+import { StatusHistory } from "./_components/status-history";
 
 export const columns: ColumnDef<BookingWithRelations>[] = [
   {
@@ -131,9 +131,7 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
         return (
           <div className="flex items-center gap-x-2">
             <StatusAction status={latestLog.status} bookingId={id} />
-            {BookingLog.length > 1 && (
-                <StatusHistory data={BookingLog} />
-            )}
+            {BookingLog.length > 1 && <StatusHistory data={BookingLog} />}
           </div>
         );
       }
@@ -154,9 +152,7 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Aksi</DropdownMenuLabel>
             <DropdownMenuItem asChild>
-              <Link href={`/booking/${row.original.id}/edit`}>
-                Ubah
-              </Link>
+              <Link href={`/booking/${row.original.id}/edit`}>Ubah</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <DeleteAction id={row.original.id} />

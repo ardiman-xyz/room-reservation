@@ -1,9 +1,35 @@
 "use server";
 
-import {db} from "@/lib/db";
+import { db } from "@/lib/db";
 
 export const getAllData = async () => {
   const data = await db.booking.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      room: {
+        include: {
+          Floor: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+      user: true,
+      BookingLog: true,
+    },
+  });
+
+  return data;
+};
+
+export const getAllDataByUserId = async (userId: string) => {
+  const data = await db.booking.findMany({
+    where: {
+      userId,
+    },
     orderBy: {
       createdAt: "desc",
     },
@@ -57,13 +83,11 @@ export const getAllDataWithApprovedLogs = async () => {
     },
   });
 
-  return data.filter(booking => {
+  return data.filter((booking) => {
     const latestLog = booking.BookingLog[0];
     return latestLog && latestLog.status === "APPROVED";
   });
 };
-
-
 
 export const getBookingByDateTime = async (
   startDate: Date,
@@ -90,10 +114,10 @@ export const getBookingByDateTime = async (
 };
 
 export const getBookingByDateTimeExcludingId = async (
-    startDate: Date,
-    endDate: Date,
-    roomId: string,
-    excludeBookingId: string
+  startDate: Date,
+  endDate: Date,
+  roomId: string,
+  excludeBookingId: string
 ) => {
   return db.booking.findFirst({
     where: {
@@ -102,19 +126,18 @@ export const getBookingByDateTimeExcludingId = async (
       OR: [
         {
           startDate: { lte: endDate },
-          endDate: { gte: startDate }
-        }
-      ]
-    }
+          endDate: { gte: startDate },
+        },
+      ],
+    },
   });
 };
 
-
 export const getBookingById = async (id: string) => {
   return db.booking.findFirst({
-    where: {id},
+    where: { id },
     include: {
-       room: true,
-    }
+      room: true,
+    },
   });
-}
+};

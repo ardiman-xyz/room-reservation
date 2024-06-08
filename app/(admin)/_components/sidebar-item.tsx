@@ -13,7 +13,7 @@ export const SidebarItem = ({
   route,
   icon: Icon,
   child,
-  role,
+  roles,
 }: Route) => {
   const userRole = useCurrentRole();
   const pathname = usePathname();
@@ -22,7 +22,7 @@ export const SidebarItem = ({
   const [isExpand, setIsExpand] = useState(isActive || false);
   const toggle = () => setIsExpand(!isExpand);
 
-  const hasAccess = role.split("||").some((r) => r.trim() === userRole);
+  const hasAccess = userRole ? roles.includes(userRole) : false;
 
   const onExpanded = () => {
     toggle();

@@ -5,11 +5,17 @@ import * as z from "zod";
 import { db } from "@/lib/db";
 import { BookingSchema } from "@/schemas";
 import { getRoomById } from "@/data/room";
-import {getBookingByDateTime, getBookingByDateTimeExcludingId, getBookingById} from "@/data/booking";
+import {
+  getBookingByDateTime,
+  getBookingByDateTimeExcludingId,
+  getBookingById,
+} from "@/data/booking";
 
 import { auth } from "@/auth";
 import { differenceInDays } from "date-fns";
-import {BookingLogStatus} from "@prisma/client";
+import { BookingLogStatus } from "@prisma/client";
+import { getUserById } from "@/data/user";
+import { sendConfirmationStatusBooking } from "@/lib/mail";
 
 export const create = async (values: z.infer<typeof BookingSchema>) => {
   const session = await auth();
@@ -62,28 +68,38 @@ export const create = async (values: z.infer<typeof BookingSchema>) => {
   return { success: "Data peminjaman Berhasil di simpan" };
 };
 
+export const updateStatus = async (
+  bookingId: string,
+  status: BookingLogStatus,
+  description: string
+) => {
+  const isBookingExist = await getBookingById(bookingId);
+  if (!isBookingExist) return { error: "Data tidak ditemukan" };
 
-export const updateStatus = async (bookingId: string, status: BookingLogStatus, description: string) => {
+  if (!status) return { error: "Input status harus di isi!" };
 
-    const isBookingExist = await getBookingById(bookingId);
-    if(!isBookingExist) return { error: "Data tidak ditemukan" };
+  await db.bookingLog.create({
+    data: {
+      bookingId: bookingId,
+      status,
+      description,
+    },
+  });
 
-    if(!status) return {error: "Input status harus di isi!" };
+  //send verification email
 
-    await db.bookingLog.create({
-      data: {
-        bookingId: bookingId,
-        status,
-        description
-      }
-    });
+  // const user = await getUserById(isBookingExist.userId);
 
-    return {success: "Status berhasil diubah"};
-}
+  // if (user) {
+  //   await sendConfirmationStatusBooking(user, isBookingExist.room, status);
+  // }
+
+  return { success: "Status berhasil diubah" };
+};
 
 export const deleteById = async (id: string) => {
   const isBookingExist = await getBookingById(id);
-  if(!isBookingExist) return {error: "Data tidak ditemukan"};
+  if (!isBookingExist) return { error: "Data tidak ditemukan" };
 
   try {
     await db.$transaction([
@@ -100,10 +116,12 @@ export const deleteById = async (id: string) => {
     console.error(error);
     return { error: "Terjadi kesalahan saat menghapus data" };
   }
-}
+};
 
-export const update = async (values: z.infer<typeof BookingSchema>, bookingId: string) => {
-
+export const update = async (
+  values: z.infer<typeof BookingSchema>,
+  bookingId: string
+) => {
   const session = await auth();
   if (!session?.user?.id) return { error: "Unauthorized" };
 
@@ -113,7 +131,8 @@ export const update = async (values: z.infer<typeof BookingSchema>, bookingId: s
   const validatedField = BookingSchema.safeParse(values);
   if (!validatedField.success) return { error: "Invalid fields" };
 
-  const { date_start, time_start, date_end, time_end, roomId, purpose } = validatedField.data;
+  const { date_start, time_start, date_end, time_end, roomId, purpose } =
+    validatedField.data;
 
   const isRoomExist = await getRoomById(roomId);
   if (!isRoomExist) return { error: "Ruangan tidak ditemukan!" };
@@ -122,16 +141,16 @@ export const update = async (values: z.infer<typeof BookingSchema>, bookingId: s
   const endDate = new Date(`${date_end}T${time_end}`);
 
   const isBookingExist = await getBookingByDateTimeExcludingId(
-      startDate,
-      endDate,
-      isRoomExist.id,
-      bookingId
+    startDate,
+    endDate,
+    isRoomExist.id,
+    bookingId
   );
 
   if (isBookingExist) {
     return {
       error:
-          "Pembaruan gagal, kegiatan lain ada di waktu yang anda pilih!, silahkan cek di 'jadwal ruangan' diatas!",
+        "Pembaruan gagal, kegiatan lain ada di waktu yang anda pilih!, silahkan cek di 'jadwal ruangan' diatas!",
     };
   }
 
@@ -139,7 +158,7 @@ export const update = async (values: z.infer<typeof BookingSchema>, bookingId: s
 
   await db.$transaction(async (prisma) => {
     await prisma.bookingLog.deleteMany({
-      where: { bookingId }
+      where: { bookingId },
     });
 
     await prisma.booking.update({
@@ -162,4 +181,4 @@ export const update = async (values: z.infer<typeof BookingSchema>, bookingId: s
   });
 
   return { success: "Data peminjaman berhasil diperbarui" };
-}
+};

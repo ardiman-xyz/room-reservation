@@ -11,12 +11,22 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-import { getAllData } from "@/data/booking";
+import { getAllData, getAllDataByUserId } from "@/data/booking";
 import { DataTable } from "./data-datable";
 import { columns } from "./column";
+import { currentUser, currentUserRole } from "@/lib/auth";
+import { BookingWithRelations } from "@/types/app";
 
 const BookingPage = async () => {
-  const bookings = await getAllData();
+  const user = await currentUser();
+
+  let bookings: BookingWithRelations[];
+
+  if (user?.role === "ADMIN") {
+    bookings = await getAllData();
+  } else {
+    bookings = await getAllDataByUserId(user?.id!!);
+  }
 
   return (
     <div className="">

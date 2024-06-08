@@ -25,7 +25,7 @@ export type Route = {
   route: string;
   icon: LucideIcon;
   child?: RouteChildren[];
-  role: UserRole;
+  roles: string[];
 };
 
 export type RouteChildren = {
