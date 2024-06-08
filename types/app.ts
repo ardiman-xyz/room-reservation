@@ -25,7 +25,7 @@ export type Route = {
   route: string;
   icon: LucideIcon;
   child?: RouteChildren[];
-  role: UserRole
+  role: UserRole;
 };
 
 export type RouteChildren = {
@@ -38,4 +38,3 @@ export type BookingWithRelations = Booking & {
   room: RoomWithFloor;
   BookingLog: BookingLog[];
 };
-
