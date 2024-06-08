@@ -6,7 +6,6 @@ interface StatusBadgeProps {
   status: BookingLogStatus;
 }
 
-// Warna untuk setiap status
 const statusColors = {
   [BookingLogStatus.SUBMITTED]: "bg-yellow-500 hover:bg-yellow-600 text-white",
   [BookingLogStatus.APPROVED]: "bg-green-500 hover:bg-green-600 text-white",
@@ -17,7 +16,9 @@ const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const colorClass = statusColors[status] || "bg-gray-500 text-white";
 
   return (
-    <Badge className={`px-2 py-1 text-xs rounded w-[90px] flex items-center justify-center ${colorClass}`}>
+    <Badge
+      className={`px-2 py-1 text-xs rounded w-[90px] flex items-center justify-center ${colorClass}`}
+    >
       {status}
     </Badge>
   );

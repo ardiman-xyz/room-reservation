@@ -25,11 +25,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
+          "min-h-screen antialiased",
           fontSans.variable
         )}
       >
-        <main>{children}</main>
+      {/*bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-50 to-blue-200*/}
+      <main>{children}</main>
       </body>
       <Toaster richColors />
     </html>

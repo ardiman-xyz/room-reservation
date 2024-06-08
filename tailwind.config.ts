@@ -19,6 +19,9 @@ const config = withUt({
       },
     },
     extend: {
+      backgroundImage: {
+        home: "url('/images/beams-home.jpg')",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

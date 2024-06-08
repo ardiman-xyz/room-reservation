@@ -1,8 +1,4 @@
-
-export const publicRoutes = [
-    "/",
-    "/api/uploadthing"
-];
+export const publicRoutes = ["/", "/api/uploadthing", "/info"];
 
 /**
  * An array of routes tha are used for authentication
@@ -10,11 +6,11 @@ export const publicRoutes = [
  * @type {string[]}
  * */
 export const authRoutes = [
-    "/auth/login",
-    "/auth/register",
-    "/auth/new-verification",
-    "/auth/reset",
-    "/auth/new-password"
+  "/auth/login",
+  "/auth/register",
+  "/auth/new-verification",
+  "/auth/reset",
+  "/auth/new-password",
 ];
 
 /**
