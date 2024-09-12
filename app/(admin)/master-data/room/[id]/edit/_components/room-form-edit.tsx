@@ -72,7 +72,7 @@ export const RoomFormEdit = ({ buildings }: IProps) => {
     setSuccess("");
 
     startTransition(() => {
-      create(values).then((data) => {
+      create(values, "").then((data) => {
         setError(data?.error);
         if (data?.success) {
           reset();
