@@ -1,16 +1,185 @@
-"use client"
+"use client";
 
-import {useCurrentUser} from "@/hooks/use-current-user";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Progress } from "@/components/ui/progress";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { Calendar, ChevronDown, Home, PieChart, Users } from "lucide-react";
+import { useState } from "react";
 
 const DashboardPage = () => {
+  const user = useCurrentUser();
 
-    const user = useCurrentUser();
+  const [searchQuery, setSearchQuery] = useState("");
 
-    return (
-        <div>
-            dashboard page {JSON.stringify(user)}
-        </div>
-    )
-}
+  const rooms = [
+    {
+      id: 1,
+      name: "Ruang Telekonference E101",
+      status: "Available",
+      bookings: 3,
+      capacity: 100,
+    },
+    {
+      id: 2,
+      name: "Ruang Rapat A202",
+      status: "Booked",
+      bookings: 5,
+      capacity: 20,
+    },
+    {
+      id: 3,
+      name: "Auditorium",
+      status: "Maintenance",
+      bookings: 0,
+      capacity: 500,
+    },
+    {
+      id: 4,
+      name: "Ruang Seminar B303",
+      status: "Available",
+      bookings: 2,
+      capacity: 50,
+    },
+  ];
+
+  const filteredRooms = rooms.filter((room) =>
+    room.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Dashboard Content */}
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Rooms
+                </CardTitle>
+                <Home className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{rooms.length}</div>
+                <p className="text-xs text-muted-foreground">
+                  +2 since last month
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Available Rooms
+                </CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {rooms.filter((room) => room.status === "Available").length}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  -1 since yesterday
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Bookings
+                </CardTitle>
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {rooms.reduce((acc, room) => acc + room.bookings, 0)}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  +20% from last week
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Occupancy Rate
+                </CardTitle>
+                <PieChart className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">75%</div>
+                <Progress value={75} className="mt-2" />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Room Status</CardTitle>
+                <CardDescription>
+                  Overview of all rooms and their current status
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {filteredRooms.map((room) => (
+                    <div
+                      key={room.id}
+                      className="flex items-center justify-between border-b pb-2"
+                    >
+                      <div>
+                        <p className="font-medium">{room.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Capacity: {room.capacity}
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span
+                          className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                            room.status === "Available"
+                              ? "bg-green-100 text-green-800"
+                              : room.status === "Booked"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-yellow-100 text-yellow-800"
+                          }`}
+                        >
+                          {room.status}
+                        </span>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm">
+                              <ChevronDown className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem>View Details</DropdownMenuItem>
+                            <DropdownMenuItem>Quick Book</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
 
 export default DashboardPage;
