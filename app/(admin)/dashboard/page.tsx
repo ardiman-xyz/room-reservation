@@ -14,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { Calendar, ChevronDown, Home, PieChart, Users } from "lucide-react";
 import Link from "next/link";
 

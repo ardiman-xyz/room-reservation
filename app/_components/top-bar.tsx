@@ -4,9 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Info } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { ModalTerms } from "./modal-terms";
 
 export const TopBar = () => {
   const router = useRouter();
+
+  const [showModalTerms, setModalTerms] = useState<boolean>(false);
 
   return (
     <div className="h-[74px] w-full">
@@ -16,12 +20,9 @@ export const TopBar = () => {
           <h1 className="text-lg font-semibold ml-3">Sim Ruang</h1>
         </div>
         <ul className="flex items-center gap-x-4">
-          <li
-            className="hover:underline cursor-pointer flex items-center gap-x-2"
-            onClick={() => router.push("/terms")}
-          >
+          <li className="hover:underline cursor-pointer flex items-center gap-x-2">
             <Info className="h-4 w-4" />
-            Ketentuan aplikasi
+            <ModalTerms />
           </li>
           <li>
             <div />
