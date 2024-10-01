@@ -154,6 +154,7 @@ export const getBookingById = async (id: string) => {
     where: { id },
     include: {
       room: true,
+      user: true,
     },
   });
 };
