@@ -1,5 +1,4 @@
-"use client";
-
+import { getDashboardData } from "@/actions/dashboard";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,12 +16,12 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { Calendar, ChevronDown, Home, PieChart, Users } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
 
-const DashboardPage = () => {
-  const user = useCurrentUser();
+const DashboardPage = async () => {
+  const data = await getDashboardData();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  console.info(data);
 
   const rooms = [
     {
@@ -55,10 +54,6 @@ const DashboardPage = () => {
     },
   ];
 
-  const filteredRooms = rooms.filter((room) =>
-    room.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   return (
     <div>
       {/* Main Content */}
@@ -69,21 +64,21 @@ const DashboardPage = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Rooms
+                  Total Ruangan
                 </CardTitle>
                 <Home className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{rooms.length}</div>
-                <p className="text-xs text-muted-foreground">
-                  +2 since last month
-                </p>
+                <div className="text-2xl font-bold">{data.totalRooms}</div>
+                {/* <p className="text-xs text-muted-foreground">
+                  +2 sejak bulan lalu
+                </p> */}
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Available Rooms
+                  Ruangan Tersedia
                 </CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
@@ -91,51 +86,49 @@ const DashboardPage = () => {
                 <div className="text-2xl font-bold">
                   {rooms.filter((room) => room.status === "Available").length}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  -1 since yesterday
-                </p>
+                {/* <p className="text-xs text-muted-foreground">
+                  -1 sejak kemarin
+                </p> */}
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Bookings
+                  Total Pemesanan
                 </CardTitle>
                 <Calendar className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">
-                  {rooms.reduce((acc, room) => acc + room.bookings, 0)}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  +20% from last week
-                </p>
+                <div className="text-2xl font-bold">{data.totalBookings}</div>
+                {/* <p className="text-xs text-muted-foreground">
+                  +20% dari minggu lalu
+                </p> */}
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Occupancy Rate
+                  Tingkat Hunian
                 </CardTitle>
                 <PieChart className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">75%</div>
-                <Progress value={75} className="mt-2" />
+                <div className="text-2xl font-bold">{data.occupancyRate}%</div>
+                <Progress value={data.occupancyRate} className="mt-2" />
               </CardContent>
             </Card>
           </div>
           <div className="mt-4">
             <Card>
               <CardHeader>
-                <CardTitle>Room Status</CardTitle>
+                <CardTitle>Status Ruangan</CardTitle>
                 <CardDescription>
-                  Overview of all rooms and their current status
+                  Gambaran status semua ruangan saat ini
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {filteredRooms.map((room) => (
+                  {data.rooms.map((room) => (
                     <div
                       key={room.id}
                       className="flex items-center justify-between border-b pb-2"
@@ -143,7 +136,7 @@ const DashboardPage = () => {
                       <div>
                         <p className="font-medium">{room.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          Capacity: {room.capacity}
+                          Kapasitas: {room.capacity}
                         </p>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -165,8 +158,17 @@ const DashboardPage = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                            <DropdownMenuItem>Quick Book</DropdownMenuItem>
+                            <DropdownMenuItem>
+                              {room.status === "Booked" ? (
+                                ""
+                              ) : (
+                                <Link
+                                  href={`/booking/create/${room.id}/confirmation`}
+                                >
+                                  Pemesanan Cepat
+                                </Link>
+                              )}
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
