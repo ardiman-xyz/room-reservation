@@ -20,8 +20,6 @@ import Link from "next/link";
 const DashboardPage = async () => {
   const data = await getDashboardData();
 
-  console.info(data);
-
   const rooms = [
     {
       id: 1,

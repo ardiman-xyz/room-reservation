@@ -75,10 +75,6 @@ export const columns: ColumnDef<RoomWithFloor>[] = [
     id: "Aksi",
     header: "Aksi",
     cell: ({ row }) => {
-      const handleDelete = () => {
-        console.info(row.original.id);
-      };
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
