@@ -103,7 +103,23 @@ export const getBookingByDateTime = async (
             lte: startDate,
           },
           endDate: {
+            gte: startDate,
+          },
+        },
+        {
+          startDate: {
+            lte: endDate,
+          },
+          endDate: {
             gte: endDate,
+          },
+        },
+        {
+          startDate: {
+            gte: startDate,
+          },
+          endDate: {
+            lte: endDate,
           },
         },
       ],

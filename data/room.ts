@@ -89,10 +89,13 @@ export const getRoomByIdAndStatus = async (id: string) => {
           },
         ],
       },
+      orderBy: {
+        startDate: "asc",
+      },
     });
 
     let status = true;
-    let statusText = "Ruangan Tersedia hari ini ";
+    let statusText = "Ruangan Tersedia hari ini";
 
     if (bookings.length > 0) {
       const currentBooking = bookings.find(
@@ -105,15 +108,16 @@ export const getRoomByIdAndStatus = async (id: string) => {
       } else {
         const nextBooking = bookings.find((booking) => booking.startDate > now);
         if (nextBooking) {
-          const endTime = nextBooking.startDate;
+          const startTime = nextBooking.startDate;
           status = true;
-          statusText = `Rersedia sampai pukul ${endTime.getHours()}:${endTime.getMinutes()}`;
+          statusText = `Tersedia sampai pukul ${format(startTime, "HH:mm")}`;
         }
       }
     }
 
     return { status, statusText, room };
-  } catch {
+  } catch (error) {
+    console.error("Error in getRoomByIdAndStatus:", error);
     return {
       status: "error",
       statusText: "Terjadi kesalahan saat mengambil data ruangan",

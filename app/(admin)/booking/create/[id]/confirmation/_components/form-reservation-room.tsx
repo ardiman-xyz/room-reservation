@@ -75,128 +75,128 @@ const FormReservationRoom = ({ id }: IProps) => {
   }
 
   return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Form Peminjaman</CardTitle>
-          <CardDescription>
-            Silahkan lengkapi form diawah, untuk melakukan proses peminjaman.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="flex gap-x-3">
-                <FormField
-                  control={form.control}
-                  name="date_start"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tanggal Mulai</FormLabel>
-                      <FormControl className="flex items-center gap-x-4">
-                        <Input
-                          {...field}
-                          type="date"
-                          disabled={isPending}
-                          className="w-[300px]"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="time_start"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Waktu Mulai</FormLabel>
-                      <FormControl className="flex items-center gap-x-4">
-                        <Input
-                          {...field}
-                          type="time"
-                          disabled={isPending}
-                          className="w-max"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="flex gap-x-3">
-                <FormField
-                  control={form.control}
-                  name="date_end"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tanggal Berakhir</FormLabel>
-                      <FormControl className="flex items-center gap-x-4">
-                        <Input
-                          {...field}
-                          type="date"
-                          disabled={isPending}
-                          className="w-[300px]"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="time_end"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Waktu Berakhir</FormLabel>
-                      <FormControl className="flex items-center gap-x-4">
-                        <Input
-                          {...field}
-                          type="time"
-                          disabled={isPending}
-                          className="w-max"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
+    <Card>
+      <CardHeader>
+        <CardTitle>Form Peminjaman</CardTitle>
+        <CardDescription>
+          Silahkan lengkapi form diawah, untuk melakukan proses peminjaman.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="flex gap-x-3">
               <FormField
                 control={form.control}
-                name="purpose"
+                name="date_start"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Keperluan</FormLabel>
+                    <FormLabel>Tanggal Mulai</FormLabel>
                     <FormControl className="flex items-center gap-x-4">
-                      <Textarea {...field} placeholder="Kegiatan ini..." />
+                      <Input
+                        {...field}
+                        type="date"
+                        disabled={isPending}
+                        className="w-[300px]"
+                      />
                     </FormControl>
-                    <FormDescription>
-                      Silahkan deskripsikan keperluan anda
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <FormError message={error} />
-              <FormSuccess message={success} />
+              <FormField
+                control={form.control}
+                name="time_start"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Waktu Mulai</FormLabel>
+                    <FormControl className="flex items-center gap-x-4">
+                      <Input
+                        {...field}
+                        type="time"
+                        disabled={isPending}
+                        className="w-max"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-              <div className={"flex gap-2"}>
-                <Button asChild variant="outline" size="sm" className="h-8">
-                  <Link href={"/booking/create"}>Batal</Link>
-                </Button>
-                <Button disabled={isPending} size={"sm"} className="h-8">
-                  Save
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+            <div className="flex gap-x-3">
+              <FormField
+                control={form.control}
+                name="date_end"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tanggal Berakhir</FormLabel>
+                    <FormControl className="flex items-center gap-x-4">
+                      <Input
+                        {...field}
+                        type="date"
+                        disabled={isPending}
+                        className="w-[300px]"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="time_end"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Waktu Berakhir</FormLabel>
+                    <FormControl className="flex items-center gap-x-4">
+                      <Input
+                        {...field}
+                        type="time"
+                        disabled={isPending}
+                        className="w-max"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="purpose"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Keperluan</FormLabel>
+                  <FormControl className="flex items-center gap-x-4">
+                    <Textarea {...field} placeholder="Kegiatan ini..." />
+                  </FormControl>
+                  <FormDescription>
+                    Silahkan deskripsikan keperluan anda
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormError message={error} />
+            <FormSuccess message={success} />
+
+            <div className={"flex gap-2"}>
+              <Button asChild variant="outline" size="sm" className="h-8">
+                <Link href={"/booking/create"}>Batal</Link>
+              </Button>
+              <Button disabled={isPending} size={"sm"} className="h-8">
+                Save
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };
 
