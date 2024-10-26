@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { z } from "zod";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,7 +22,6 @@ import { create } from "@/actions/booking";
 import FormError from "@/components/form-error";
 import FormSuccess from "@/components/form-success";
 
-import { formCreate } from "@/schemas/building";
 import { useRouter } from "next/navigation";
 
 import {
@@ -34,6 +33,9 @@ import {
 } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { BookingSchema } from "@/schemas";
+import { CompleteUploadResponse, FileResponse } from "@/types/uploadthing";
+import ImageUpload from "@/app/(admin)/master-data/room/create/_components/image-upload";
+import { toast } from "sonner";
 
 interface IProps {
   id: string;
@@ -45,6 +47,7 @@ const FormReservationRoom = ({ id }: IProps) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [fileUpload, setFileUpload] = useState<FileResponse | null>(null);
 
   const form = useForm<z.infer<typeof BookingSchema>>({
     resolver: zodResolver(BookingSchema),
@@ -55,12 +58,28 @@ const FormReservationRoom = ({ id }: IProps) => {
       date_end: "",
       time_end: "",
       purpose: "",
+      fileUrl: "",
     },
   });
 
+  useEffect(() => {
+    if (fileUpload) {
+      form.setValue("fileUrl", fileUpload.url);
+    }
+  }, [fileUpload, form]);
+
+  const handleFileUpload = (data: FileResponse) => {
+    setFileUpload(data);
+    form.setValue("fileUrl", data.url); // Set URL langsung saat upload
+  };
   function onSubmit(values: z.infer<typeof BookingSchema>) {
     setError("");
     setSuccess("");
+
+    if (!fileUpload) {
+      toast.error("Silahkan upload surat izin terlebih dahulu!");
+      return;
+    }
 
     startTransition(() => {
       create(values).then((data) => {
@@ -180,6 +199,14 @@ const FormReservationRoom = ({ id }: IProps) => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+
+            <ImageUpload
+              onChange={handleFileUpload}
+              data={fileUpload}
+              onDelete={() => setFileUpload(null)}
+              title="Surat "
+              type="file"
             />
 
             <FormError message={error} />

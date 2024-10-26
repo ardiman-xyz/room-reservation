@@ -1,6 +1,8 @@
 "use server";
 
 import * as z from "zod";
+import { BookingLogStatus } from "@prisma/client";
+import { differenceInDays } from "date-fns";
 
 import { db } from "@/lib/db";
 import { BookingSchema } from "@/schemas";
@@ -12,10 +14,6 @@ import {
 } from "@/data/booking";
 
 import { auth } from "@/auth";
-import { differenceInDays } from "date-fns";
-import { BookingLogStatus } from "@prisma/client";
-import { getUserById } from "@/data/user";
-import { sendConfirmationStatusBooking } from "@/lib/mail";
 
 export const create = async (values: z.infer<typeof BookingSchema>) => {
   const session = await auth();
@@ -23,8 +21,15 @@ export const create = async (values: z.infer<typeof BookingSchema>) => {
   const validatedField = BookingSchema.safeParse(values);
   if (!validatedField.success) return { error: "Invalid fields" };
 
-  const { date_start, time_start, date_end, time_end, roomId, purpose } =
-    validatedField.data;
+  const {
+    date_start,
+    time_start,
+    date_end,
+    time_end,
+    roomId,
+    purpose,
+    fileUrl,
+  } = validatedField.data;
 
   const isRoomExist = await getRoomById(roomId);
   if (!isRoomExist) return { error: "Ruangan tidak ditemukan!" };
@@ -56,6 +61,7 @@ export const create = async (values: z.infer<typeof BookingSchema>) => {
       dateCount,
       purpose,
       roomId: isRoomExist.id,
+      fileUrl: fileUrl,
     },
   });
 
@@ -131,8 +137,15 @@ export const update = async (
   const validatedField = BookingSchema.safeParse(values);
   if (!validatedField.success) return { error: "Invalid fields" };
 
-  const { date_start, time_start, date_end, time_end, roomId, purpose } =
-    validatedField.data;
+  const {
+    date_start,
+    time_start,
+    date_end,
+    time_end,
+    roomId,
+    purpose,
+    fileUrl,
+  } = validatedField.data;
 
   const isRoomExist = await getRoomById(roomId);
   if (!isRoomExist) return { error: "Ruangan tidak ditemukan!" };
@@ -170,6 +183,7 @@ export const update = async (
         dateCount,
         purpose,
         roomId: isRoomExist.id,
+        fileUrl: fileUrl,
       },
     });
 

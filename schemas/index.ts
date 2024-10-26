@@ -22,14 +22,9 @@ export const LoginSchema = z.object({
 });
 
 export const RegisterSchema = z.object({
-  email: z
-    .string()
-    .email({
-      message: "Email not valid",
-    })
-    .refine((email) => email.endsWith("@umkendari.ac.id"), {
-      message: "Email harus dari umkendari.ac.id domain",
-    }),
+  email: z.string().email({
+    message: "Email not valid",
+  }),
   password: z.string().min(6, {
     message: "Minimum 6 characters long",
   }),
@@ -79,6 +74,10 @@ export const BookingSchema = z.object({
   }),
   purpose: z.string().min(2, {
     message: "Tujuan harus di isi",
+  }),
+  fileUrl: z.string().min(1, {
+    // Ubah nama field ke fileUrl
+    message: "File harus diupload",
   }),
 });
 

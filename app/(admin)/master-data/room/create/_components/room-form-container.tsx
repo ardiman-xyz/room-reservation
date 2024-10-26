@@ -35,7 +35,7 @@ import { create } from "@/actions/room";
 import { getAllByBuildingId } from "@/data/floor";
 import { Textarea } from "@/components/ui/textarea";
 import ImageUpload from "./image-upload";
-import { CompleteUploadResponse } from "@/types/uploadthing";
+import { CompleteUploadResponse, FileResponse } from "@/types/uploadthing";
 import { toast } from "sonner";
 
 interface IProps {
@@ -49,7 +49,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [floors, setFloors] = useState<Floor[] | []>([]);
-  const [image, setImage] = useState<CompleteUploadResponse | null>(null);
+  const [image, setImage] = useState<FileResponse | null>(null);
 
   const form = useForm<z.infer<typeof RoomSchema>>({
     resolver: zodResolver(RoomSchema),
@@ -75,7 +75,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
     }
   }, [building]);
 
-  const handleImageUploadPath = (data: CompleteUploadResponse) => {
+  const handleImageUploadPath = (data: FileResponse) => {
     setImage(data);
   };
 
@@ -218,7 +218,7 @@ export const RoomFormContainer = ({ buildings }: IProps) => {
           />
 
           <ImageUpload
-            onImageChange={handleImageUploadPath}
+            onChange={handleImageUploadPath}
             data={image}
             onDelete={() => setImage(null)}
           />

@@ -3,7 +3,17 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBookingById } from "@/data/booking";
 import { format } from "date-fns";
-import { Calendar, Clock, Monitor, Users, Wifi } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Monitor,
+  Users,
+  Wifi,
+  FileIcon,
+  ExternalLink,
+  Download,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const DetailPage = async ({ params }: { params: { id: string } }) => {
   const booking = await getBookingById(params.id);
@@ -39,6 +49,7 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
         </div>
         <div className="grid gap-2">
           <h3 className="text-lg font-semibold">Room Information</h3>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center">
               <Users className="mr-2 h-4 w-4 opacity-70" />
@@ -78,6 +89,21 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
               <span className="text-sm font-medium mr-2">Purpose:</span>
               <span className="text-sm">{booking.purpose}</span>
             </div>
+            {booking.fileUrl && (
+              <div className="flex items-center md:col-span-2">
+                <span className="text-sm font-medium mr-2">File Surat:</span>
+                <a
+                  href={booking.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center text-sm text-blue-600 hover:text-blue-800"
+                >
+                  <FileIcon className="mr-2 h-4 w-4" />
+                  View Document
+                  <ExternalLink className="ml-1 h-3 w-3" />
+                </a>
+              </div>
+            )}
           </div>
         </div>
         <div className="grid gap-2">

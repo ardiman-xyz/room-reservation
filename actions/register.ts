@@ -19,9 +19,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { name, email, password } = validatedFields.data;
 
-  if (!email.endsWith("@umkendari.ac.id")) {
-    return { error: "Email must be from umkendari.ac.id domain" };
-  }
+  // if (!email.endsWith("@umkendari.ac.id")) {
+  //   return { error: "Email must be from umkendari.ac.id domain" };
+  // }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
