@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ModalTerms } from "./modal-terms";
+import { Logo } from "@/components/logo";
 
 export const TopBar = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const TopBar = () => {
     <div className="h-[74px] w-full">
       <div className="flex items-center h-full text-sm justify-between">
         <div className="flex items-center">
-          <Image src="/logo.svg" alt="logo" width={50} height={50} />
+          <Logo />
           <h1 className="text-lg font-semibold ml-3">Sim Ruang</h1>
         </div>
         <ul className="flex items-center gap-x-4">

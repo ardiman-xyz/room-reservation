@@ -30,21 +30,12 @@ export const Jumbotron = () => {
         </p>
         <div className="mt-10 flex gap-x-3 w-full">
           <Button
-            variant="outline"
-            size="xl"
-            className="w-full lg:w-max"
-            onClick={onClick}
-          >
-            Buat akun
-          </Button>
-          <Button
             variant="primary"
             size="xl"
             className="w-full lg:w-max"
             onClick={onClick}
           >
-            <Bookmark className="size-4 mr-3" />
-            Reservasi sekarang
+            Buat Akun
           </Button>
         </div>
       </div>

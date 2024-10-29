@@ -12,9 +12,6 @@ export default async function HomePage() {
         <div className="lg:mt-20 mt-10">
           <Jumbotron />
         </div>
-        <div className="lg:mt-32 mt-10">
-          <Video />
-        </div>
       </div>
     </div>
   );
