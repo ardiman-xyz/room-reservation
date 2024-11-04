@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format, formatDistanceToNowStrict } from "date-fns";
 import { id } from "date-fns/locale";
 
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +19,7 @@ import { DeleteAction } from "./_components/DeleteAction";
 import { BookingWithRelations } from "@/types/app";
 import StatusAction from "./_components/status-action";
 import { StatusHistory } from "./_components/status-history";
+import { useCurrentRole } from "@/hooks/use-current-role";
 
 export const columns: ColumnDef<BookingWithRelations>[] = [
   {
@@ -141,6 +143,9 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
     id: "Aksi",
     header: "Aksi",
     cell: ({ row }) => {
+
+      const userRole = useCurrentRole();
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -154,9 +159,13 @@ export const columns: ColumnDef<BookingWithRelations>[] = [
             <DropdownMenuItem asChild>
               <Link href={`/booking/${row.original.id}/detail`}>Detail</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
+           {
+            userRole === "ADMIN" && (
+              <DropdownMenuItem asChild>
               <Link href={`/booking/${row.original.id}/edit`}>Ubah</Link>
             </DropdownMenuItem>
+            )
+           }
             <DropdownMenuItem>
               <DeleteAction id={row.original.id} />
             </DropdownMenuItem>

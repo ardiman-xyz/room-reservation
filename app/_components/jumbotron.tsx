@@ -41,7 +41,7 @@ export const Jumbotron = () => {
       </div>
       <div className="lg:w-1/2 w-full lg:mt-0 lg:order-2 order-1">
         <Image
-          src="/images/jumbotron-image.png"
+          src="/images/umk.jpeg"
           alt="image"
           width={700}
           height={400}
